@@ -27,7 +27,7 @@ public class DotLox {
 	private static void RunPrompt() {
 		for (;;) {
 			Console.Write("> ");
-			string line = Console.ReadLine();
+			string? line = Console.ReadLine();
 			if (line == null) break;
 			Run(line);
 			hadError = false;
