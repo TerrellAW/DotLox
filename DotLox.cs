@@ -35,16 +35,12 @@ public class DotLox {
 	}
 
 	private static void Run(string source) {
-		// TODO: Make Scanner class
-		//Scanner scanner    = new Scanner(source);
-		//List<Token> tokens = scanner.scanTokens();
+		Scanner scanner    = new Scanner(source);
+		List<Token> tokens = scanner.ScanTokens();
 
-		//foreach (Token token in tokens) {
-			//Console.WriteLine(token);
-		//}
-
-		// Placeholder
-		Console.WriteLine(source);
+		foreach (Token token in tokens) {
+			Console.WriteLine(token);
+		}
 	}
 
 	// TODO: Make an Exception class
@@ -53,7 +49,7 @@ public class DotLox {
 	}
 
 	private static void Report(int line, string where, string message) {
-		Console.Error.WriteLine($"[line {line}] Error {where}: message");
+		Console.Error.WriteLine($"[line {line}] Error {where}: {message}");
 		hadError = true;
 	}
 }
