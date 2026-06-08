@@ -175,7 +175,6 @@ class Scanner {
 		// Consume until closing characters, multi-line comments are supported
 		while (Peek() != '*' && PeekAhead() != '/' && !IsAtEnd()) {
 			if (Peek() == '\n') line++;
-
 			Advance();
 		}
 
