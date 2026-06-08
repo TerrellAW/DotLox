@@ -4,4 +4,4 @@
 
 </div>
 
-DotLox is a C# implementation of the tree-walk interpreter for Robert Nystrom's Lox programming language which is explained in his book; [Crafting Interpreters](craftinginterpreters.com).
+DotLox is a C# implementation of the tree-walk interpreter for Robert Nystrom's Lox programming language which is explained in his book; [Crafting Interpreters](https://craftinginterpreters.com).
