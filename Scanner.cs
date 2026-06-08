@@ -8,6 +8,26 @@ class Scanner {
 	private int current = 0;
 	private int line 	= 1;
 
+	// Handle reserved words
+	private static readonly Dictionary<string, TokenType> keywords = new Dictionary<string, TokenType>() {
+		{"and", 	TokenType.AND},
+		{"class", 	TokenType.CLASS},
+		{"else", 	TokenType.ELSE},
+		{"false", 	TokenType.FALSE},
+		{"for", 	TokenType.FOR},
+		{"fun", 	TokenType.FUN},
+		{"if", 		TokenType.IF},
+		{"nil", 	TokenType.NIL},
+		{"or", 		TokenType.OR},
+		{"print", 	TokenType.PRINT},
+		{"return", 	TokenType.RETURN},
+		{"super", 	TokenType.SUPER},
+		{"this", 	TokenType.THIS},
+		{"true", 	TokenType.TRUE},
+		{"var", 	TokenType.VAR},
+		{"while", 	TokenType.WHILE}
+	}
+
 	public Scanner(string source) {
 		this.source = source;
 	}
@@ -86,11 +106,46 @@ class Scanner {
 			// Long lexemes
 			case '"': HandleString(); break;
 
-			// Error handling
 			default:
-				DotLox.Error(line, "Unexpected character.");
+				// Alphanumeric handling
+				if (IsDigit(c)) {
+					HandleNumber();
+				} else if (IsAlpha(c)) {
+					HandleIdent();
+				// Error handling
+				} else {
+					DotLox.Error(line, "Unexpected character.");
+				}
 				break;
 		}
+	}
+
+	// Handle identifiers
+	private void HandleIdent() {
+		while (IsAlphaNum(Peek())) Advance();
+
+		string text = source[start..current];
+
+		// Get type from text, or make identifier
+		if (!keywords.TryGetValue(text, out TokenType type))
+			type = TokenType.IDENT;
+
+		AddToken(TokenType.IDENT);
+	}
+
+	// Handle numbers
+	private void HandleNumber() {
+		// Consume entire number
+		while (IsDigit(Peek())) Advance();
+
+		// Look for and consume decimal point
+		if (Peek() == '.' && IsDigit(PeekAhead())) {
+			Advance();
+
+			while (IsDigit(Peek())) Advance();
+		}
+
+		AddToken(TokenType.NUM, Double.Parse(source[start..current]));
 	}
 
 	// Handle string lexemes
@@ -118,13 +173,14 @@ class Scanner {
 	// Handle C-style comments
 	private void HandleComment() {
 		// Consume until closing characters, multi-line comments are supported
-		while (Peek() != '*' && !Match('/') && !IsAtEnd()) {
+		while (Peek() != '*' && PeekAhead() != '/' && !IsAtEnd()) {
 			if (Peek() == '\n') line++;
-			Advance();
+
 			Advance();
 		}
 
-		// Consume
+		// Consume both the '*' and the '/'
+		Advance();
 		Advance();
 	}
 
@@ -141,6 +197,29 @@ class Scanner {
 	private char Peek() {
 		if (IsAtEnd()) return '\0';
 		return source[current];
+	}
+
+	// Peek after next char
+	private char PeekAhead() {
+		if (current + 1 >= source.Length) return '\0';
+		return source[current+1];
+	}
+
+	// Determine if a character is from the alphabet
+	private bool IsAlpha(char c) {
+		return 	(c >= 'a' && c <= 'z') ||
+				(c >= 'A' && c <= 'Z') ||
+				 c == '_';
+	}
+
+	// Determine if a character is alpha-numeric
+	private bool IsAlphaNum(char c) {
+		return IsAlpha(c) || IsDigit(c);
+	}
+
+	// Determine if a character is a digit
+	private bool IsDigit(char c) {
+		return c >= '0' && c <= '9';
 	}
 
 	private char Advance() {
