@@ -63,6 +63,9 @@ class Scanner {
 				if (Match('/')) {
 					// Consume comment but don't turn it into a token
 					while (Peek() != '\n' && !IsAtEnd()) Advance();
+				} else if (Match('*')) {
+					// Handle C-style comments
+					HandleComment();
 				} else {
 					// Turn lone slash into a token
 					AddToken(TokenType.SLASH);
@@ -110,6 +113,19 @@ class Scanner {
 		// Tokenize string and store value without quotes
 		string value = source[(start+1)..(current-1)];
 		AddToken(TokenType.STRING, value);
+	}
+
+	// Handle C-style comments
+	private void HandleComment() {
+		// Consume until closing characters, multi-line comments are supported
+		while (Peek() != '*' && !Match('/') && !IsAtEnd()) {
+			if (Peek() == '\n') line++;
+			Advance();
+			Advance();
+		}
+
+		// Consume
+		Advance();
 	}
 
 	// Check second character, helper for two character tokens
