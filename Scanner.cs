@@ -80,11 +80,36 @@ class Scanner {
 				line++;
 				break;
 
+			// Long lexemes
+			case '"': HandleString(); break;
+
 			// Error handling
 			default:
 				DotLox.Error(line, "Unexpected character.");
 				break;
 		}
+	}
+
+	// Handle string lexemes
+	private void HandleString() {
+		// Consume until closing quote, multi-line strings are supported
+		while (Peek() != '"' && !IsAtEnd()) {
+			if (Peek() == '\n') line++;
+			Advance();
+		}
+
+		// Handle unterminated strings
+		if (IsAtEnd()) {
+			DotLox.Error(line, "Unterminated string.");
+			return;
+		}
+
+		// Consume
+		Advance();
+
+		// Tokenize string and store value without quotes
+		string value = source[(start+1)..(current-1)];
+		AddToken(TokenType.STRING, value);
 	}
 
 	// Check second character, helper for two character tokens
