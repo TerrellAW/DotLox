@@ -25,31 +25,31 @@ ast_types = [
 ]
 
 def define_type(f, class_name, fields_str):
-    f.write("\tclass %s {\n" % class_name)
-    f.write("\t\tpublic %s(%s) {\n" % (class_name, fields_str))
-    
-    # Write constructor
-    fields = fields_str.split(", ")
-    for field in fields:
-        name = field.split(" ")[1]
-        f.write("\t\t\tthis.%s = %s;\n" % (name, name))
+    f.write("\tclass %s {\n\n" % class_name)
 
-    f.write("\t\t}\n\n")
+    fields = fields_str.split(", ")
 
     # Write fields
     for field in fields:
         f.write("\t\treadonly %s;\n" % field)
+    f.write("\n")
+    
+    # Write constructor
+    f.write("\t\tpublic %s(%s) {\n" % (class_name, fields_str))
+    for field in fields:
+        name = field.split(" ")[1]
+        f.write("\t\t\tthis.%s = %s;\n" % (name, name))
+    f.write("\t\t}\n")
 
-    f.write("\t}\n")
+    f.write("\t}\n\n")
 
 def define_ast(output_dir, base_name, types = [], *args):
     path = f"{output_dir}/{base_name}.cs"
     
     # Write abstract class and subclasses
     f = open(path, 'w')
-    f.write("namespace DotLox;\n")
-    f.write("\n")
-    f.write("public abstract class %s {\n" % base_name)
+    f.write("namespace DotLox;\n\n")
+    f.write("public abstract class %s {\n\n" % base_name)
 
     for type in types:
         class_name  = type.split(":")[0].strip()
