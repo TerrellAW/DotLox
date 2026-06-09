@@ -173,7 +173,7 @@ class Scanner {
 	// Handle C-style comments
 	private void HandleComment() {
 		// Consume until closing characters, multi-line comments are supported
-		while (Peek() != '*' && PeekAhead() != '/' && !IsAtEnd()) {
+		while ((Peek() != '*' || PeekAhead() != '/') && !IsAtEnd()) {
 			if (Peek() == '\n') line++;
 			Advance();
 		}
