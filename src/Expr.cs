@@ -22,6 +22,7 @@ public abstract class Expr {
 			this.opr = opr;
 			this.right = right;
 		}
+
 		internal override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitBinaryExpr(this);
 		}
@@ -34,6 +35,7 @@ public abstract class Expr {
 		public Grouping(Expr expressions) {
 			this.expressions = expressions;
 		}
+
 		internal override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitGroupingExpr(this);
 		}
@@ -46,6 +48,7 @@ public abstract class Expr {
 		public Literal(Object value) {
 			this.value = value;
 		}
+
 		internal override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitLiteralExpr(this);
 		}
@@ -60,6 +63,7 @@ public abstract class Expr {
 			this.opr = opr;
 			this.right = right;
 		}
+
 		internal override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitUnaryExpr(this);
 		}

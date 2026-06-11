@@ -39,7 +39,7 @@ def define_type(f, class_name, base_name, fields_str):
     for field in fields:
         name = field.split(" ")[1]
         f.write("\t\t\tthis.%s = %s;\n" % (name, name))
-    f.write("\t\t}\n")
+    f.write("\t\t}\n\n")
 
     # Write visitor pattern
     f.write("\t\tinternal override T Accept<T>(Visitor<T> visitor) {\n")
