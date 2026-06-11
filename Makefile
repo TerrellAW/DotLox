@@ -23,7 +23,7 @@ $(BIN):
 
 # Run test
 test:
-	./$(BIN)
+	./$(BIN) test
 
 # Clean build artifacts via CLI parameter
 clean:
