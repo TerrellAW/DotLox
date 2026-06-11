@@ -1,10 +1,14 @@
 namespace DotLox;
 
-class Token {
+public class Token {
 	readonly TokenType 	type;
 	readonly string 	lexeme;
 	readonly Object? 	literal;
 	readonly int 		line;
+
+	public string getLexeme() {
+		return lexeme;
+	}
 
 	public Token(TokenType type, string lexeme, Object? literal, int line) {
 		this.type 		= type;
@@ -18,7 +22,7 @@ class Token {
 	}
 }
 
-enum TokenType {
+public enum TokenType {
 	// Single character tokens
 	LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE, COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR,
 

@@ -2,20 +2,32 @@ namespace DotLox;
 
 public abstract class Expr {
 
-	internal abstract T Accept<T>(Visitor<T> visitor);
+	public abstract T Accept<T>(Visitor<T> visitor);
 
-	internal interface Visitor<T> {
-		internal T VisitBinaryExpr(Binary expr);
-		internal T VisitGroupingExpr(Grouping expr);
-		internal T VisitLiteralExpr(Literal expr);
-		internal T VisitUnaryExpr(Unary expr);
+	public interface Visitor<T> {
+		public T VisitBinaryExpr(Binary expr);
+		public T VisitGroupingExpr(Grouping expr);
+		public T VisitLiteralExpr(Literal expr);
+		public T VisitUnaryExpr(Unary expr);
 	}
 
-	internal class Binary : Expr {
+	public class Binary : Expr {
 
 		readonly Expr left;
 		readonly Token opr;
 		readonly Expr right;
+
+		public Expr getLeft() {
+			return left;
+		}
+
+		public Token getOpr() {
+			return opr;
+		}
+
+		public Expr getRight() {
+			return right;
+		}
 
 		public Binary(Expr left, Token opr, Expr right) {
 			this.left = left;
@@ -23,48 +35,64 @@ public abstract class Expr {
 			this.right = right;
 		}
 
-		internal override T Accept<T>(Visitor<T> visitor) {
+		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitBinaryExpr(this);
 		}
 	}
 
-	internal class Grouping : Expr {
+	public class Grouping : Expr {
 
 		readonly Expr expressions;
+
+		public Expr getExpressions() {
+			return expressions;
+		}
 
 		public Grouping(Expr expressions) {
 			this.expressions = expressions;
 		}
 
-		internal override T Accept<T>(Visitor<T> visitor) {
+		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitGroupingExpr(this);
 		}
 	}
 
-	internal class Literal : Expr {
+	public class Literal : Expr {
 
 		readonly Object value;
+
+		public Object getValue() {
+			return value;
+		}
 
 		public Literal(Object value) {
 			this.value = value;
 		}
 
-		internal override T Accept<T>(Visitor<T> visitor) {
+		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitLiteralExpr(this);
 		}
 	}
 
-	internal class Unary : Expr {
+	public class Unary : Expr {
 
 		readonly Token opr;
 		readonly Expr right;
+
+		public Token getOpr() {
+			return opr;
+		}
+
+		public Expr getRight() {
+			return right;
+		}
 
 		public Unary(Token opr, Expr right) {
 			this.opr = opr;
 			this.right = right;
 		}
 
-		internal override T Accept<T>(Visitor<T> visitor) {
+		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitUnaryExpr(this);
 		}
 	}

@@ -25,7 +25,7 @@ ast_types = [
 ]
 
 def define_type(f, class_name, base_name, fields_str):
-    f.write("\tinternal class %s : Expr {\n\n" % class_name)
+    f.write("\tpublic class %s : Expr {\n\n" % class_name)
 
     fields = fields_str.split(", ")
 
@@ -33,6 +33,14 @@ def define_type(f, class_name, base_name, fields_str):
     for field in fields:
         f.write("\t\treadonly %s;\n" % field)
     f.write("\n")
+
+    # Write getters
+    for field in fields:
+        field_type = field.split()[0]
+        field_val = field.split()[1]
+        f.write("\t\tpublic %s get%s() {\n" % (field_type, field_val.capitalize()))
+        f.write("\t\t\treturn %s;\n" % field_val)
+        f.write("\t\t}\n\n")
     
     # Write constructor
     f.write("\t\tpublic %s(%s) {\n" % (class_name, fields_str))
@@ -42,19 +50,19 @@ def define_type(f, class_name, base_name, fields_str):
     f.write("\t\t}\n\n")
 
     # Write visitor pattern
-    f.write("\t\tinternal override T Accept<T>(Visitor<T> visitor) {\n")
+    f.write("\t\tpublic override T Accept<T>(Visitor<T> visitor) {\n")
     f.write("\t\t\treturn visitor.Visit%s%s(this);\n" % (class_name, base_name))
     f.write("\t\t}\n")
 
     f.write("\t}\n\n")
 
 def define_visitor(f, base_name, types):
-    f.write("\tinternal interface Visitor<T> {\n")
+    f.write("\tpublic interface Visitor<T> {\n")
 
     # Make generic visitor method for each type
     for type in types:
         type_name = type.split(":")[0].strip()
-        f.write("\t\tinternal T Visit%s%s(%s %s);\n" % (type_name, base_name, type_name, base_name.lower()))
+        f.write("\t\tpublic T Visit%s%s(%s %s);\n" % (type_name, base_name, type_name, base_name.lower()))
 
     f.write("\t}\n\n")
 
@@ -67,7 +75,7 @@ def define_ast(output_dir, base_name, types = [], *args):
     f.write("public abstract class %s {\n\n" % base_name)
 
     # Write abstract accept method
-    f.write("\tinternal abstract T Accept<T>(Visitor<T> visitor);\n\n")
+    f.write("\tpublic abstract T Accept<T>(Visitor<T> visitor);\n\n")
 
     define_visitor(f, base_name, types)
 
