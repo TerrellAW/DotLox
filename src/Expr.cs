@@ -2,7 +2,16 @@ namespace DotLox;
 
 public abstract class Expr {
 
-	class Binary {
+	internal abstract T Accept<T>(Visitor<T> visitor);
+
+	internal interface Visitor<T> {
+		internal T VisitBinaryExpr(Binary expr);
+		internal T VisitGroupingExpr(Grouping expr);
+		internal T VisitLiteralExpr(Literal expr);
+		internal T VisitUnaryExpr(Unary expr);
+	}
+
+	internal class Binary : Expr {
 
 		readonly Expr left;
 		readonly Token opr;
@@ -13,27 +22,36 @@ public abstract class Expr {
 			this.opr = opr;
 			this.right = right;
 		}
+		internal override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitBinaryExpr(this);
+		}
 	}
 
-	class Grouping {
+	internal class Grouping : Expr {
 
 		readonly Expr expressions;
 
 		public Grouping(Expr expressions) {
 			this.expressions = expressions;
 		}
+		internal override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitGroupingExpr(this);
+		}
 	}
 
-	class Literal {
+	internal class Literal : Expr {
 
 		readonly Object value;
 
 		public Literal(Object value) {
 			this.value = value;
 		}
+		internal override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitLiteralExpr(this);
+		}
 	}
 
-	class Unary {
+	internal class Unary : Expr {
 
 		readonly Token opr;
 		readonly Expr right;
@@ -41,6 +59,9 @@ public abstract class Expr {
 		public Unary(Token opr, Expr right) {
 			this.opr = opr;
 			this.right = right;
+		}
+		internal override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitUnaryExpr(this);
 		}
 	}
 
