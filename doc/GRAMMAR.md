@@ -18,7 +18,7 @@ The following grammar denotes the rules in the DotLox programming language. It d
 - `?`, denotes an optional value, an option postfixed with this symbol can appear zero or one time
 - `;`, denotes the end of a statement
 
-The rules are in order of precedence.
+The rules are in order of descending precedence.
 
 ### Grammar Rules
 
