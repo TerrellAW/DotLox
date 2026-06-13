@@ -59,9 +59,16 @@ public class DotLox {
 		}
 	}
 
-	// TODO: Make an Exception class
 	internal static void Error(int line, string message) {
 		Report(line, "", message);
+	}
+
+	internal static void Error(Token token, string message) {
+		if (token.getType() == TokenType.EOF) {
+			Report(token.getLine(), " at end", message);
+		} else {
+			Report(token.getLine(), $" at '{token.getLexeme()}'", message);
+		}
 	}
 
 	private static void Report(int line, string where, string message) {

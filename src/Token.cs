@@ -6,8 +6,21 @@ public class Token {
 	readonly Object? 	literal;
 	readonly int 		line;
 
+	public TokenType getType() {
+		return type;
+	}
+
 	public string getLexeme() {
 		return lexeme;
+	}
+
+	// TODO: Error handling
+	public Object getLiteral() {
+		return literal;
+	}
+
+	public int getLine() {
+		return line;
 	}
 
 	public Token(TokenType type, string lexeme, Object? literal, int line) {

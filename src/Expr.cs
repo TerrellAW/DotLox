@@ -59,13 +59,13 @@ public abstract class Expr {
 
 	public class Literal : Expr {
 
-		readonly Object value;
+		readonly Object? value;
 
-		public Object getValue() {
+		public Object? getValue() {
 			return value;
 		}
 
-		public Literal(Object value) {
+		public Literal(Object? value) {
 			this.value = value;
 		}
 

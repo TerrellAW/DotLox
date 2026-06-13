@@ -20,7 +20,7 @@ output_dir = sys.argv[1]
 ast_types = [ 
     "Binary    : Expr left, Token opr, Expr right",
     "Grouping  : Expr expressions",
-    "Literal   : Object value",
+    "Literal   : Object? value",
     "Unary     : Token opr, Expr right"
 ]
 
