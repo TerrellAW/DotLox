@@ -48,7 +48,7 @@ public class Parser {
 
 		while (Match(TokenType.MINUS, TokenType.PLUS)) {
 			Token opr = Previous();
-			Expr right = Unary();
+			Expr right = Factor();
 			expr = new Expr.Binary(expr, opr, right);
 		}
 
@@ -115,7 +115,7 @@ public class Parser {
 	}
 
 	private Token Advance() {
-		if (IsAtEnd()) current++;
+		if (!IsAtEnd()) current++;
 		return Previous();
 	}
 
@@ -128,7 +128,7 @@ public class Parser {
 	}
 
 	private Token Previous() {
-		return tokens[current];
+		return tokens[current - 1];
 	}
 
 	private void Synchronize() {
