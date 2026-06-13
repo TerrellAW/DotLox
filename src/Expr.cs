@@ -42,14 +42,14 @@ public abstract class Expr {
 
 	public class Grouping : Expr {
 
-		readonly Expr expressions;
+		readonly Expr expression;
 
-		public Expr getExpressions() {
-			return expressions;
+		public Expr getExpression() {
+			return expression;
 		}
 
-		public Grouping(Expr expressions) {
-			this.expressions = expressions;
+		public Grouping(Expr expression) {
+			this.expression = expression;
 		}
 
 		public override T Accept<T>(Visitor<T> visitor) {

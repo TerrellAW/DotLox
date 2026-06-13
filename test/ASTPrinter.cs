@@ -12,7 +12,7 @@ public class ASTPrinter : Expr.Visitor<string> {
 	}
 
 	public string VisitGroupingExpr(Expr.Grouping expr) {
-		return Parenthesize("group", expr.getExpressions());
+		return Parenthesize("group", expr.getExpression());
 	}
 
 	public string VisitLiteralExpr(Expr.Literal expr) {
