@@ -1,3 +1,5 @@
+using DotLox.Exception;
+
 namespace DotLox;
 
 public class Interpreter : Expr.Visitor<Object?> {
@@ -19,6 +21,7 @@ public class Interpreter : Expr.Visitor<Object?> {
 			case TokenType.LESS_EQUAL:
 				return (double)left <= (double)right;
 			case TokenType.MINUS:
+				CheckNumOpr(expr.getOpr(), right);
 				return (double)left - (double)right;
 			case TokenType.PLUS:
 				// Handle addition
@@ -61,6 +64,11 @@ public class Interpreter : Expr.Visitor<Object?> {
 		}
 
 		return null;
+	}
+
+	private void CheckNumOpr(Token? opr, Object? oprnd) {
+		if (oprnd is double) return;
+		throw new RuntimeError(opr, "Operand must be a number.");
 	}
 
 	private bool IsTruthy(Object? obj) {
