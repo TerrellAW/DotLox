@@ -2,8 +2,8 @@ namespace DotLox;
 
 public class Interpreter : Expr.Visitor<Object?> {
 	public Object? VisitBinaryExpr(Expr.Binary expr) {
-		Object left = Evaluate(expr.getLeft());
-		Object right = Evaluate(expr.getLeft());
+		Object? left = Evaluate(expr.getLeft());
+		Object? right = Evaluate(expr.getRight());
 
 		switch (expr.getOpr().getType()) {
 			case TokenType.BANG_EQUAL:
@@ -51,7 +51,7 @@ public class Interpreter : Expr.Visitor<Object?> {
 	}
 
 	public Object? VisitUnaryExpr(Expr.Unary expr) {
-		Object right = Evaluate(expr.getRight());
+		Object? right = Evaluate(expr.getRight());
 
 		switch (expr.getOpr().getType()) {
 			case TokenType.BANG:
@@ -63,13 +63,13 @@ public class Interpreter : Expr.Visitor<Object?> {
 		return null;
 	}
 
-	private bool IsTruthy(Object obj) {
+	private bool IsTruthy(Object? obj) {
 		if (obj == null) return false;
 		if (obj is bool) return (bool)obj;
 		return true;
 	}
 
-	private bool IsEqual(Object a, Object b) {
+	private bool IsEqual(Object? a, Object? b) {
 		if (a == null && b == null) return true;
 		if (a == null) return false;
 
