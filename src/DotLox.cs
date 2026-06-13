@@ -1,6 +1,3 @@
-using System;
-using System.IO;
-
 using DotLox.Test;
 
 namespace DotLox;
@@ -13,25 +10,11 @@ public class DotLox {
 		if (args.Length > 1) {
 			Console.WriteLine("Usage: dotlox [script|test]");
 			Environment.Exit(64);
-		} else if (args.Length == 1 && !(args[0].Equals("test"))) {
+		} else if (args.Length == 1) {
 			RunFile(args[0]);
-		} else if (args.Length == 1 && args[0].Equals("test")) {
-			RunTest();
 		} else {
 			RunPrompt();
 		}
-	}
-
-	private static void RunTest() {
-		Expr expression = new Expr.Binary(
-				new Expr.Unary(
-					new Token(TokenType.MINUS, "-", null, 1),
-					new Expr.Literal(123)),
-				new Token(TokenType.STAR, "*", null, 1),
-				new Expr.Grouping(
-					new Expr.Literal(45.67)));
-
-		Console.WriteLine(new ASTPrinter().Print(expression));
 	}
 
 	private static void RunFile(string path) {
@@ -54,9 +37,12 @@ public class DotLox {
 		Scanner scanner    = new Scanner(source);
 		List<Token> tokens = scanner.ScanTokens();
 
-		foreach (Token token in tokens) {
-			Console.WriteLine(token);
-		}
+		Parser parser = new Parser(tokens);
+		Expr expr = parser.Parse();
+
+		if (hadError) return;
+
+		Console.WriteLine(new ASTPrinter().Print(expr));
 	}
 
 	internal static void Error(int line, string message) {
