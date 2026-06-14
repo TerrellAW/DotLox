@@ -43,13 +43,11 @@ public class DotLox {
 		List<Token> tokens = scanner.ScanTokens();
 
 		Parser parser = new Parser(tokens);
-		Expr expr = parser.Parse();
+		List<Stmt> statements = parser.Parse();
 
 		if (hadError) return;
 
-		interpreter.Interpret(expr);
-
-		Console.WriteLine(new ASTPrinter().Print(expr));
+		interpreter.Interpret(statements);
 	}
 
 	internal static void HandleError(int line, string message) {

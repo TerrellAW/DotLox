@@ -2,14 +2,21 @@ using DotLox.Exception;
 
 namespace DotLox;
 
-public class Interpreter : Expr.Visitor<Object?> {
-	internal void Interpret(Expr expr) {
+public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
+	internal void Interpret(List<Stmt> statements) {
 		try {
-			Object value = Evaluate(expr);
-			Console.WriteLine(Stringify(value));
+			foreach (Stmt statement in statements) {
+				Execute(statement);
+			}
 		} catch (RuntimeError e) {
 			DotLox.HandleRuntimeError(e);
 		}
+	}
+
+	public Object? VisitPrintStmt(Stmt.Print stmt) {
+		Object? value = Evaluate(stmt.getExpression());
+		Console.WriteLine(Stringify(value));
+		return null;
 	}
 
 	public Object? VisitBinaryExpr(Expr.Binary expr) {
@@ -121,5 +128,9 @@ public class Interpreter : Expr.Visitor<Object?> {
 
 	private Object? Evaluate(Expr expr) {
 		return expr.Accept(this);
+	}
+
+	private void Execute(Stmt stmt) {
+		stmt.Accept(this);
 	}
 }
