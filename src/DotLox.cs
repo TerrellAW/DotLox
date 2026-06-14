@@ -1,3 +1,4 @@
+using DotLox.Exception;
 using DotLox.Test;
 
 namespace DotLox;
@@ -5,6 +6,7 @@ namespace DotLox;
 public class DotLox {
 
 	internal static bool hadError = false;
+	internal static bool hadRuntimeError = false;
 
 	public static void Main(string[] args) {
 		if (args.Length > 1) {
@@ -21,6 +23,7 @@ public class DotLox {
 		Run(File.ReadAllText(path));
 
 		if (hadError) Environment.Exit(65);
+		if (hadRuntimeError) Environment.Exit(70);
 	}
 
 	private static void RunPrompt() {
@@ -55,6 +58,11 @@ public class DotLox {
 		} else {
 			Report(token.getLine(), $" at '{token.getLexeme()}'", message);
 		}
+	}
+
+	internal static void HandleRuntimeError(RuntimeError e) {
+		Console.Error.WriteLine($"{e.Message} \n[line {e.token.getLine()}]");
+		hadRuntimeError = true;
 	}
 
 	private static void Report(int line, string where, string message) {

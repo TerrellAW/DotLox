@@ -3,6 +3,15 @@ using DotLox.Exception;
 namespace DotLox;
 
 public class Interpreter : Expr.Visitor<Object?> {
+	internal void Interpret(Expr expr) {
+		try {
+			Object value = Evaluate(expr);
+			Console.WriteLine(Stringify(value));
+		} catch (RuntimeError e) {
+			DotLox.HandleRuntimeError(e);
+		}
+	}
+
 	public Object? VisitBinaryExpr(Expr.Binary expr) {
 		Object? left = Evaluate(expr.getLeft());
 		Object? right = Evaluate(expr.getRight());
@@ -94,6 +103,20 @@ public class Interpreter : Expr.Visitor<Object?> {
 		if (a == null) return false;
 
 		return a.Equals(b);
+	}
+
+	private string Stringify(Object? obj) {
+		if (obj == null) return "nil";
+
+		if (obj is double) {
+			string text = obj.ToString();
+
+			if (text.EndsWith(".0")) {
+				text = text.Substring(0, text.Length - 2);
+			}
+			return text;
+		}
+		return obj.ToString();
 	}
 
 	private Object? Evaluate(Expr expr) {
