@@ -10,16 +10,36 @@ public class Parser {
 		this.tokens = tokens;
 	}
 
-	public Expr? Parse() {
-		try {
-			return Expression();
-		} catch (ParseError e) {
-			return null;
+	public List<Stmt> Parse() {
+		List<Stmt> statements = new List<Stmt>();
+
+		while (!IsAtEnd()) {
+			statements.Add(Statement());
 		}
+
+		return statements;
 	}
 
 	private Expr Expression() {
 		return Equality();
+	}
+
+	private Stmt Statement() {
+		if (Match(TokenType.PRINT)) return PrintStatement();
+
+		return ExpressionStatement();
+	}
+
+	private Stmt PrintStatement() {
+		Expr value = Expression();
+		Consume(TokenType.SEMICOLON, "Expect ';' after value.");
+		return new Stmt.Print(value);
+	}
+
+	private Stmt ExpressionStatement() {
+		Expr expr = Expression();
+		Consume(TokenType.SEMICOLON, "Expect ';' after expression.");
+		return new Stmt.Expression(expr);
 	}
 
 	private Expr Equality() {
