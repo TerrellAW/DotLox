@@ -41,10 +41,10 @@ public class Interpreter : Expr.Visitor<Object?> {
 				// Else fail
 				throw new RuntimeError(expr.getOpr(), "Operands must be two numbers or two strings.");
 			case TokenType.SLASH:
-				CheckNumOpr(expr.getOpr(), right);
+				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left / (double)right;
 			case TokenType.STAR:
-				CheckNumOpr(expr.getOpr(), right);
+				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left * (double)right;
 		}
 
