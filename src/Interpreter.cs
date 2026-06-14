@@ -13,15 +13,19 @@ public class Interpreter : Expr.Visitor<Object?> {
 			case TokenType.EQUAL_EQUAL:
 				return IsEqual(left, right);
 			case TokenType.GREATER:
+				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left > (double)right;
 			case TokenType.GREATER_EQUAL:
+				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left >= (double)right;
 			case TokenType.LESS:
+				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left < (double)right;
 			case TokenType.LESS_EQUAL:
+				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left <= (double)right;
 			case TokenType.MINUS:
-				CheckNumOpr(expr.getOpr(), right);
+				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left - (double)right;
 			case TokenType.PLUS:
 				// Handle addition
@@ -34,11 +38,13 @@ public class Interpreter : Expr.Visitor<Object?> {
 					return (string)left + (string)right;
 				}
 
-				// Else break
-				break;
+				// Else fail
+				throw new RuntimeError(expr.getOpr(), "Operands must be two numbers or two strings.");
 			case TokenType.SLASH:
+				CheckNumOpr(expr.getOpr(), right);
 				return (double)left / (double)right;
 			case TokenType.STAR:
+				CheckNumOpr(expr.getOpr(), right);
 				return (double)left * (double)right;
 		}
 
@@ -60,6 +66,7 @@ public class Interpreter : Expr.Visitor<Object?> {
 			case TokenType.BANG:
 				return !IsTruthy(right);
 			case TokenType.MINUS:
+				CheckNumOpr(expr.getOpr(), right);
 				return -(double)right;
 		}
 
@@ -69,6 +76,11 @@ public class Interpreter : Expr.Visitor<Object?> {
 	private void CheckNumOpr(Token? opr, Object? oprnd) {
 		if (oprnd is double) return;
 		throw new RuntimeError(opr, "Operand must be a number.");
+	}
+
+	private void CheckNumOpr(Token? opr, Object? left, Object? right) {
+		if (left is double && right is double) return;
+		throw new RuntimeError(opr, "Operands must be numbers.");
 	}
 
 	private bool IsTruthy(Object? obj) {
