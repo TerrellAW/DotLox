@@ -8,6 +8,8 @@ public class DotLox {
 	internal static bool hadError = false;
 	internal static bool hadRuntimeError = false;
 
+	private static readonly Interpreter interpreter = new Interpreter();
+
 	public static void Main(string[] args) {
 		if (args.Length > 1) {
 			Console.WriteLine("Usage: dotlox [script|test]");
@@ -44,6 +46,8 @@ public class DotLox {
 		Expr expr = parser.Parse();
 
 		if (hadError) return;
+
+		interpreter.Interpret(expr);
 
 		Console.WriteLine(new ASTPrinter().Print(expr));
 	}
