@@ -1,3 +1,5 @@
+using DotLox.Exception;
+
 namespace DotLox;
 
 public class Parser {
@@ -149,14 +151,6 @@ public class Parser {
 			}
 
 			Advance();
-		}
-	}
-
-	// TODO: Make child of custom exception
-	internal class ParseError : System.Exception {
-
-		internal ParseError(Token token, string message) {
-			DotLox.Error(token, message);
 		}
 	}
 }
