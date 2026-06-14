@@ -23,6 +23,14 @@ The rules are in order of descending precedence.
 ### Grammar Rules
 
 ```
+program     ->  statement* EOF ;
+
+statement   ->  exprStmnt | printStmnt ;
+
+exprStmnt   ->  expression ";" ;
+
+printStmnt  ->  "print" expression ";" ;
+
 expression  ->  equality ;
 
 equality    ->  comparison ( ( "!=" | "==" ) comparison )* ;
