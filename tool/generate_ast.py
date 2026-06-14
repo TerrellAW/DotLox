@@ -24,8 +24,13 @@ ast_types = [
     "Unary     : Token opr, Expr right"
 ]
 
+stmt_types = [
+    "Expression : Expr expression",
+    "Print      : Expr expression"
+]
+
 def define_type(f, class_name, base_name, fields_str):
-    f.write("\tpublic class %s : Expr {\n\n" % class_name)
+    f.write("\tpublic class %s : %s {\n\n" % (class_name, base_name))
 
     fields = fields_str.split(", ")
 
@@ -89,3 +94,4 @@ def define_ast(output_dir, base_name, types = [], *args):
     f.close()
 
 define_ast(output_dir, "Expr", ast_types)
+define_ast(output_dir, "Stmt", stmt_types)
