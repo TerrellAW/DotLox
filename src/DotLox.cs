@@ -45,11 +45,11 @@ public class DotLox {
 		Console.WriteLine(new ASTPrinter().Print(expr));
 	}
 
-	internal static void Error(int line, string message) {
+	internal static void HandleError(int line, string message) {
 		Report(line, "", message);
 	}
 
-	internal static void Error(Token token, string message) {
+	internal static void HandleError(Token token, string message) {
 		if (token.getType() == TokenType.EOF) {
 			Report(token.getLine(), " at end", message);
 		} else {

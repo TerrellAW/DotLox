@@ -114,7 +114,7 @@ class Scanner {
 					HandleIdent();
 				// Error handling
 				} else {
-					DotLox.Error(line, "Unexpected character.");
+					DotLox.HandleError(line, "Unexpected character.");
 				}
 				break;
 		}
@@ -158,7 +158,7 @@ class Scanner {
 
 		// Handle unterminated strings
 		if (IsAtEnd()) {
-			DotLox.Error(line, "Unterminated string.");
+			DotLox.HandleError(line, "Unterminated string.");
 			return;
 		}
 
