@@ -13,12 +13,6 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		}
 	}
 
-	public Object? VisitPrintStmt(Stmt.Print stmt) {
-		Object? value = Evaluate(stmt.getExpression());
-		Console.WriteLine(Stringify(value));
-		return null;
-	}
-
 	public Object? VisitBinaryExpr(Expr.Binary expr) {
 		Object? left = Evaluate(expr.getLeft());
 		Object? right = Evaluate(expr.getRight());
@@ -128,6 +122,17 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 
 	private Object? Evaluate(Expr expr) {
 		return expr.Accept(this);
+	}
+
+	public Object? VisitExpressionStmt(Stmt.Expression stmt) {
+		Evaluate(stmt.getExpression());
+		return null;
+	}
+
+	public Object? VisitPrintStmt(Stmt.Print stmt) {
+		Object? value = Evaluate(stmt.getExpression());
+		Console.WriteLine(Stringify(value));
+		return null;
 	}
 
 	private void Execute(Stmt stmt) {
