@@ -9,17 +9,23 @@ BIN_DIR = bin
 OBJ_DIR = obj
 
 # Output binary
-BIN = $(BIN_DIR)/Debug/net10.0/DotLox
+DBG = $(BIN_DIR)/Debug/net10.0/DotLox
+REL = $(BIN_DIR)/Release/net10.0/DotLox
 
-.PHONY: build test clean
+.PHONY: build test clean release
 
-# Default target
-build: $(BIN)
+# Targets
+build: $(DBG)
+release: $(REL)
 
 # Link object files into final binary
-$(BIN):
+$(DBG):
 	python tool/generate_ast.py src/
 	$(CC) build $(PROJ).csproj
+
+$(REL):
+	python tool/generate_ast.py src/
+	$(CC) build $(PROJ).csproj --configuration Release
 
 # Run test
 test:
