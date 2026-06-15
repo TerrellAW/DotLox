@@ -25,6 +25,10 @@ The rules are in order of descending precedence.
 ```
 program     ->  statement* EOF ;
 
+declaration ->  varDecl | statement ;
+
+varDecl     ->  "var" IDENTIFIER ( "=" expression )? ";" ;
+
 statement   ->  exprStmnt | printStmnt ;
 
 exprStmnt   ->  expression ";" ;
