@@ -21,12 +21,14 @@ ast_types = [
     "Binary    : Expr left, Token opr, Expr right",
     "Grouping  : Expr expression",
     "Literal   : Object? value",
-    "Unary     : Token opr, Expr right"
+    "Unary     : Token opr, Expr right",
+    "Variable  : Token name"
 ]
 
 stmt_types = [
     "Expression : Expr expression",
-    "Print      : Expr expression"
+    "Print      : Expr expression",
+    "Var        : Token name, Expr? initializer"
 ]
 
 def define_type(f, class_name, base_name, fields_str):

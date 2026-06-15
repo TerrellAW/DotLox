@@ -9,6 +9,7 @@ public abstract class Stmt {
 	public interface Visitor<T> {
 		public T VisitExpressionStmt(Expression stmt);
 		public T VisitPrintStmt(Print stmt);
+		public T VisitVarStmt(Var stmt);
 	}
 
 	public class Expression : Stmt {
@@ -42,6 +43,29 @@ public abstract class Stmt {
 
 		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitPrintStmt(this);
+		}
+	}
+
+	public class Var : Stmt {
+
+		readonly Token name;
+		readonly Expr? initializer;
+
+		public Token getName() {
+			return name;
+		}
+
+		public Expr? getInitializer() {
+			return initializer;
+		}
+
+		public Var(Token name, Expr? initializer) {
+			this.name = name;
+			this.initializer = initializer;
+		}
+
+		public override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitVarStmt(this);
 		}
 	}
 
