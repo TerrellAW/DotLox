@@ -27,9 +27,11 @@ $(REL):
 	python tool/generate_ast.py src/
 	$(CC) build $(PROJ).csproj --configuration Release
 
-# Run test
-test:
-	./$(BIN)
+# Run tests
+test-dbg:
+	./$(DBG)
+test-rel:
+	./$(REL)
 
 # Clean build artifacts via CLI parameter
 clean:
