@@ -130,7 +130,7 @@ class Scanner {
 		if (!keywords.TryGetValue(text, out TokenType type))
 			type = TokenType.IDENT;
 
-		AddToken(TokenType.IDENT);
+		AddToken(type);
 	}
 
 	// Handle numbers
