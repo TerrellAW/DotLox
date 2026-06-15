@@ -15,7 +15,7 @@ REL = $(BIN_DIR)/Release/net10.0/DotLox
 .PHONY: build test clean release
 
 # Targets
-build: $(DBG)
+debug: $(DBG)
 release: $(REL)
 
 # Link object files into final binary
