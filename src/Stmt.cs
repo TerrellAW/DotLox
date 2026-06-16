@@ -7,9 +7,27 @@ public abstract class Stmt {
 	public abstract T Accept<T>(Visitor<T> visitor);
 
 	public interface Visitor<T> {
+		public T VisitBlockStmt(Block stmt);
 		public T VisitExpressionStmt(Expression stmt);
 		public T VisitPrintStmt(Print stmt);
 		public T VisitVarStmt(Var stmt);
+	}
+
+	public class Block : Stmt {
+
+		readonly List<Stmt> statements;
+
+		public List<Stmt> getStatements() {
+			return statements;
+		}
+
+		public Block(List<Stmt> statements) {
+			this.statements = statements;
+		}
+
+		public override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitBlockStmt(this);
+		}
 	}
 
 	public class Expression : Stmt {
