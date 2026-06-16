@@ -21,7 +21,7 @@ public class Parser {
 	}
 
 	private Expr Expression() {
-		return Equality();
+		return Assignment();
 	}
 
 	private Stmt? Declaration() {
@@ -62,6 +62,24 @@ public class Parser {
 		Expr expr = Expression();
 		Consume(TokenType.SEMICOLON, "Expect ';' after expression.");
 		return new Stmt.Expression(expr);
+	}
+
+	private Expr Assignment() {
+		Expr expr = Equality();
+
+		if (Match(TokenType.EQUAL)) {
+			Token equals = Previous();
+			Expr value = Assignment();
+
+			if (expr is Expr.Variable) {
+				Token name = ((Expr.Variable)expr).getName();
+				return new Expr.Assign(name, value);
+			}
+
+			DotLox.HandleError(equals, "Invalid assignment target.");
+		}
+
+		return expr;
 	}
 
 	private Expr Equality() {

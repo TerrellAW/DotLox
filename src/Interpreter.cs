@@ -151,6 +151,12 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return null;
 	}
 
+	public Object? VisitAssignExpr(Expr.Assign expr) {
+		Object? value = Evaluate(expr.getValue());
+		environment.Assign(expr.getName(), value);
+		return value;
+	}
+
 	private void Execute(Stmt stmt) {
 		stmt.Accept(this);
 	}

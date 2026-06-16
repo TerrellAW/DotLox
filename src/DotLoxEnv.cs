@@ -13,6 +13,15 @@ public class DotLoxEnv {
 		throw new RuntimeError(name, $"Undefined variable '{name.getLexeme()}'.");
 	}
 
+	public void Assign(Token name, Object value) {
+		if (values.ContainsKey(name.getLexeme())) {
+			values.Add(name.getLexeme(), value);
+			return;
+		}
+
+		throw new RuntimeError(name, $"Undefined variable '{name.getLexeme()}'.");
+	}
+
 	public void Define(string name, object? value) {
 		values.Add(name, value);
 	}
