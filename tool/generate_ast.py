@@ -18,6 +18,7 @@ output_dir = sys.argv[1]
 
 # AST metaprogramming
 ast_types = [ 
+    "Assign    : Token name, Expr value",
     "Binary    : Expr left, Token opr, Expr right",
     "Grouping  : Expr expression",
     "Literal   : Object? value",
