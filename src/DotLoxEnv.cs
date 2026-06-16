@@ -15,7 +15,7 @@ public class DotLoxEnv {
 
 	public void Assign(Token name, Object value) {
 		if (values.ContainsKey(name.getLexeme())) {
-			values.Add(name.getLexeme(), value);
+			values[name.getLexeme()] = value;
 			return;
 		}
 
