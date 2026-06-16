@@ -136,6 +136,15 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return null;
 	}
 
+	public Object? VisitIfStmt(Stmt.If stmt) {
+		if (IsTruthy(Evaluate(stmt.getCondition()))) {
+			Execute(stmt.getThenbranch());
+		} else if (stmt.getElsebranch() != null) {
+			Execute(stmt.getElsebranch());
+		}
+		return null;
+	}
+
 	public Object? VisitPrintStmt(Stmt.Print stmt) {
 		Object? value = Evaluate(stmt.getExpression());
 		Console.WriteLine(Stringify(value));
