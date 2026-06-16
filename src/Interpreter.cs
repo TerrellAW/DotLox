@@ -3,6 +3,8 @@ using DotLox.Exception;
 namespace DotLox;
 
 public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
+	private DotLoxEnv environment = new DotLoxEnv();
+
 	internal void Interpret(List<Stmt> statements) {
 		try {
 			foreach (Stmt statement in statements) {
@@ -83,6 +85,10 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return null;
 	}
 
+	public Object? VisitVariableExpr(Expr.Variable expr) {
+		return environment.Get(expr.getName());
+	}
+
 	private void CheckNumOpr(Token? opr, Object? oprnd) {
 		if (oprnd is double) return;
 		throw new RuntimeError(opr, "Operand must be a number.");
@@ -132,6 +138,16 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 	public Object? VisitPrintStmt(Stmt.Print stmt) {
 		Object? value = Evaluate(stmt.getExpression());
 		Console.WriteLine(Stringify(value));
+		return null;
+	}
+
+	public Object? VisitVarStmt(Stmt.Var stmt) {
+		Object? value = null;
+		if (stmt.getInitializer() != null) {
+			value = Evaluate(stmt.getInitializer());
+		}
+
+		environment.Define(stmt.getName().getLexeme(), value);
 		return null;
 	}
 
