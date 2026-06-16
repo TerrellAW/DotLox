@@ -3,9 +3,22 @@ using DotLox.Exception;
 namespace DotLox;
 
 public class DotLoxEnv {
-	private readonly Dictionary<string, object> values = new Dictionary<string, object>();
+	internal readonly DotLoxEnv? enclosing;
+	private readonly Dictionary<string, object?> values = new Dictionary<string, object?>();
 
-	public object Get(Token name) {
+	public DotLoxEnv? getEnclosing() {
+		return enclosing;
+	}
+	
+	public DotLoxEnv() {
+		this.enclosing = null;
+	}
+
+	public DotLoxEnv(DotLoxEnv enclosing) {
+		this.enclosing = enclosing;
+	}
+
+	public object? Get(Token name) {
 		if (values.ContainsKey(name.getLexeme())) {
 			return values[name.getLexeme()];
 		}
