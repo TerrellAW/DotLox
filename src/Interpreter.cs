@@ -2,6 +2,7 @@ using DotLox.Exception;
 
 namespace DotLox;
 
+// Uses recursive descent to interpret the AST created by Parser
 public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 	private DotLoxEnv environment = new DotLoxEnv();
 
@@ -159,5 +160,24 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 
 	private void Execute(Stmt stmt) {
 		stmt.Accept(this);
+	}
+
+	private void ExecuteBlock(List<Stmt> statements, DotLoxEnv environment) {
+		DotLoxEnv previous = this.environment;
+
+		try {
+			this.environment = environment;
+
+			foreach (Stmt statement in statements) {
+				Execute(statement);
+			}
+		} finally {
+			this.environment = previous;
+		}
+	}
+
+	public Object? VisitBlockStmt(Stmt.Block stmt) {
+		ExecuteBlock(stmt.getStatements(), new DotLoxEnv(environment));
+		return null;
 	}
 }

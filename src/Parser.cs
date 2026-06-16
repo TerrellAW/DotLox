@@ -2,6 +2,7 @@ using DotLox.Exception;
 
 namespace DotLox;
 
+// Creates an Abstract Syntax Tree of expression and statement nodes for later interpretation
 public class Parser {
 	private readonly List<Token> tokens;
 	private int current = 0;
@@ -48,6 +49,7 @@ public class Parser {
 
 	private Stmt Statement() {
 		if (Match(TokenType.PRINT)) return PrintStatement();
+		if (Match(TokenType.LEFT_BRACE)) return new Stmt.Block(Block());
 
 		return ExpressionStatement();
 	}
@@ -62,6 +64,17 @@ public class Parser {
 		Expr expr = Expression();
 		Consume(TokenType.SEMICOLON, "Expect ';' after expression.");
 		return new Stmt.Expression(expr);
+	}
+
+	private List<Stmt> Block() {
+		List<Stmt> statements = new List<Stmt>();
+
+		while (!Check(TokenType.RIGHT_BRACE) && !IsAtEnd()) {
+			statements.Add(Declaration());
+		}
+
+		Consume(TokenType.RIGHT_BRACE, "Expect '}' after block.");
+		return statements;
 	}
 
 	private Expr Assignment() {
