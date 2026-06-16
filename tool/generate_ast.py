@@ -94,7 +94,7 @@ def define_ast(output_dir, base_name, types = [], *args):
 
         define_type(f, class_name, base_name, fields)
 
-    f.write("}")
+    f.write("}\n")
     f.close()
 
 define_ast(output_dir, "Expr", ast_types)
