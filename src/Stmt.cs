@@ -52,7 +52,7 @@ public abstract class Stmt {
 
 		readonly Expr condition;
 		readonly Stmt thenBranch;
-		readonly Stmt elseBranch;
+		readonly Stmt? elseBranch;
 
 		public Expr getCondition() {
 			return condition;
@@ -62,11 +62,11 @@ public abstract class Stmt {
 			return thenBranch;
 		}
 
-		public Stmt getElsebranch() {
+		public Stmt? getElsebranch() {
 			return elseBranch;
 		}
 
-		public If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
+		public If(Expr condition, Stmt thenBranch, Stmt? elseBranch) {
 			this.condition = condition;
 			this.thenBranch = thenBranch;
 			this.elseBranch = elseBranch;

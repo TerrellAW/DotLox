@@ -61,7 +61,7 @@ public class Parser {
 		Consume(TokenType.RIGHT_PAREN, "Expect ')' after if condition.");
 
 		Stmt thenBranch = Statement();
-		Stmt elseBranch = null;
+		Stmt? elseBranch = null;
 		if (Match(TokenType.ELSE)) {
 			elseBranch = Statement();
 		}
