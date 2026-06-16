@@ -35,7 +35,9 @@ exprStmnt   ->  expression ";" ;
 
 printStmnt  ->  "print" expression ";" ;
 
-expression  ->  equality ;
+expression  ->  assignment ;
+
+assignment  ->  IDENTIFIER "=" assignment | equality ;
 
 equality    ->  comparison ( ( "!=" | "==" ) comparison )* ;
 
