@@ -9,6 +9,7 @@ public abstract class Stmt {
 	public interface Visitor<T> {
 		public T VisitBlockStmt(Block stmt);
 		public T VisitExpressionStmt(Expression stmt);
+		public T VisitIfStmt(If stmt);
 		public T VisitPrintStmt(Print stmt);
 		public T VisitVarStmt(Var stmt);
 	}
@@ -44,6 +45,35 @@ public abstract class Stmt {
 
 		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitExpressionStmt(this);
+		}
+	}
+
+	public class If : Stmt {
+
+		readonly Expr condition;
+		readonly Stmt thenBranch;
+		readonly Stmt elseBranch;
+
+		public Expr getCondition() {
+			return condition;
+		}
+
+		public Stmt getThenbranch() {
+			return thenBranch;
+		}
+
+		public Stmt getElsebranch() {
+			return elseBranch;
+		}
+
+		public If(Expr condition, Stmt thenBranch, Stmt elseBranch) {
+			this.condition = condition;
+			this.thenBranch = thenBranch;
+			this.elseBranch = elseBranch;
+		}
+
+		public override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitIfStmt(this);
 		}
 	}
 
