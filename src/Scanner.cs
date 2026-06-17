@@ -1,9 +1,13 @@
 namespace DotLox;
 
+// Scanner class for tokenizing input
 class Scanner {
+	// Inputted source code
 	private readonly string source;
+	// Outputted tokens
 	private readonly List<Token> tokens = new List<Token>();
 
+	// Indexing
 	private int start 	= 0;
 	private int current = 0;
 	private int line 	= 1;
@@ -28,25 +32,32 @@ class Scanner {
 		{"while", 	TokenType.WHILE}
 	};
 
+	// Constructor
 	public Scanner(string source) {
 		this.source = source;
 	}
 
+	// Scan source for valid tokens
 	public List<Token> ScanTokens() {
 		while (!IsAtEnd()) {
 			start = current;
+			// Determine token type
 			ScanToken();
 		}
 
+		// Add valid token to list and return them
 		tokens.Add(new Token(TokenType.EOF, "", null, line));
 		return tokens;
 	}
 
+	// Detect if at end of source file
 	private bool IsAtEnd() {
 		return current >= source.Length;
 	}
 
+	// Handle token types
 	private void ScanToken() {
+		// Iterate through source characters
 		char c = Advance();
 
 		// Match characters to tokens
@@ -221,10 +232,12 @@ class Scanner {
 		return c >= '0' && c <= '9';
 	}
 
+	// Consume and iterate
 	private char Advance() {
 		return source[current++];
 	}
 
+	// Add token to list
 	private void AddToken(TokenType type) {
 		AddToken(type, null);
 	}

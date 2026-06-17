@@ -3,14 +3,19 @@ using DotLox.Exception;
 namespace DotLox;
 
 // Creates an Abstract Syntax Tree of expression and statement nodes for later interpretation
+// Uses recursive descent to infer syntax
 public class Parser {
+	// Inputted list of tokens
 	private readonly List<Token> tokens;
+	// Indexing
 	private int current = 0;
 
+	// Constructor
 	public Parser(List<Token> tokens) {
 		this.tokens = tokens;
 	}
 
+	// Parses tokens into a list of statements
 	public List<Stmt> Parse() {
 		List<Stmt> statements = new List<Stmt>();
 
