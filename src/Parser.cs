@@ -52,9 +52,19 @@ public class Parser {
 		return new Stmt.Var(name, initializer);
 	}
 
+	private Stmt WhileStatement() {
+		Consume(TokenType.LEFT_PAREN, "Expect '(' after 'while'.");
+		Expr condition = Expression();
+		Consume(TokenType.RIGHT_PAREN, "Expect ')' after condition.");
+		Stmt body = Statement();
+
+		return new Stmt.While(condition, body);
+	}
+
 	private Stmt Statement() {
 		if (Match(TokenType.IF)) return IfStatement();
 		if (Match(TokenType.PRINT)) return PrintStatement();
+		if (Match(TokenType.WHILE)) return WhileStatement();
 		if (Match(TokenType.LEFT_BRACE)) return new Stmt.Block(Block());
 
 		return ExpressionStatement();
