@@ -61,7 +61,7 @@ This program can be run with [rlwrap](https://github.com/hanslub42/rlwrap) like 
 rlwrap -a dotlox
 ```
 
-There is also a `make` target with can automatically run a build that is in the `bin/` directory:
+There is also a `make` target which can automatically run a build that is in the `bin/` directory:
 
 ```bash
 # For debug build
