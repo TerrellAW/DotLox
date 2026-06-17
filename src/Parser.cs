@@ -93,7 +93,7 @@ public class Parser {
 	}
 
 	private Expr Assignment() {
-		Expr expr = Equality();
+		Expr expr = Or();
 
 		if (Match(TokenType.EQUAL)) {
 			Token equals = Previous();
@@ -105,6 +105,30 @@ public class Parser {
 			}
 
 			DotLox.HandleError(equals, "Invalid assignment target.");
+		}
+
+		return expr;
+	}
+
+	private Expr Or() {
+		Expr expr = And();
+
+		while (Match(TokenType.OR)) {
+			Token opr = Previous();
+			Expr right = And();
+			expr = new Expr.Logical(expr, opr, right);
+		}
+
+		return expr;
+	}
+
+	private Expr And() {
+		Expr expr = Equality();
+
+		while (Match(TokenType.AND)) {
+			Token opr = Previous();
+			Expr right = Equality();
+			expr = new Expr.Logical(expr, opr, right);
 		}
 
 		return expr;

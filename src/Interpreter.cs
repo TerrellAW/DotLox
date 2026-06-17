@@ -72,6 +72,18 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return expr.getValue();
 	}
 
+	public Object? VisitLogicalExpr(Expr.Logical expr) {
+		Object? left = Evaluate(expr.getLeft());
+
+		if (expr.getOpr().getType() == TokenType.OR) {
+			if (IsTruthy(left)) return left;
+		} else {
+			if (!IsTruthy(left)) return left;
+		}
+
+		return Evaluate(expr.getRight());
+	}
+
 	public Object? VisitUnaryExpr(Expr.Unary expr) {
 		Object? right = Evaluate(expr.getRight());
 
