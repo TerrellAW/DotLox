@@ -11,6 +11,7 @@ public abstract class Stmt {
 		public T VisitExpressionStmt(Expression stmt);
 		public T VisitIfStmt(If stmt);
 		public T VisitPrintStmt(Print stmt);
+		public T VisitWhileStmt(While stmt);
 		public T VisitVarStmt(Var stmt);
 	}
 
@@ -91,6 +92,29 @@ public abstract class Stmt {
 
 		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitPrintStmt(this);
+		}
+	}
+
+	public class While : Stmt {
+
+		readonly Expr condition;
+		readonly Stmt body;
+
+		public Expr getCondition() {
+			return condition;
+		}
+
+		public Stmt getBody() {
+			return body;
+		}
+
+		public While(Expr condition, Stmt body) {
+			this.condition = condition;
+			this.body = body;
+		}
+
+		public override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitWhileStmt(this);
 		}
 	}
 
