@@ -29,13 +29,15 @@ declaration ->  varDecl | statement ;
 
 varDecl     ->  "var" IDENTIFIER ( "=" expression )? ";" ;
 
-statement   ->  exprStmt | ifStmt | printStmt | whileStmt | block ;
+statement   ->  exprStmt | forStmt | ifStmt | printStmt | whileStmt | block ;
 
 block       ->  "{" declaration* "}" ;
 
 whileStmt   ->  "while" "(" expression ")" statement ;
 
 exprStmt    ->  expression ";" ;
+
+forStmt     ->  "for" "(" ( varDecl | exprStmt | ";" ) expression? ";" expression? ")" statement ;
 
 ifStmt      ->  "if" "(" expression ")" statement ( "else" statement )? ;
 
