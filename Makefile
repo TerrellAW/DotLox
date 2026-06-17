@@ -9,8 +9,8 @@ BIN_DIR = bin
 OBJ_DIR = obj
 
 # Output binary
-DBG = $(BIN_DIR)/Debug/net10.0/DotLox
-REL = $(BIN_DIR)/Release/net10.0/DotLox
+DBG = $(BIN_DIR)/Debug/net10.0/dotlox
+REL = $(BIN_DIR)/Release/net10.0/dotlox
 
 .PHONY: build test clean release
 
