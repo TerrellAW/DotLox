@@ -22,6 +22,7 @@ ast_types = [
     "Binary    : Expr left, Token opr, Expr right",
     "Grouping  : Expr expression",
     "Literal   : Object? value",
+    "Logical   : Expr left, Token opr, Expr right",
     "Unary     : Token opr, Expr right",
     "Variable  : Token name"
 ]
