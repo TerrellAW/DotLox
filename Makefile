@@ -12,7 +12,7 @@ OBJ_DIR = obj
 DBG = $(BIN_DIR)/Debug/net10.0/dotlox
 REL = $(BIN_DIR)/Release/net10.0/dotlox
 
-.PHONY: build test clean release
+.PHONY: debug test clean release
 
 # Targets
 debug: $(DBG)
