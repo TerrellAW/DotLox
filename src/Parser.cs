@@ -26,10 +26,12 @@ public class Parser {
 		return statements;
 	}
 
+	// Begins recursive descent
 	private Expr Expression() {
 		return Assignment();
 	}
 
+	// Tries to pass declaration to parsing method
 	private Stmt? Declaration() {
 		try {
 			if (Match(TokenType.VAR)) return VarDeclaration();
@@ -40,6 +42,7 @@ public class Parser {
 		}
 	}
 
+	// Parses variable declaration
 	private Stmt VarDeclaration() {
 		Token name = Consume(TokenType.IDENT, "Expect variable name.");
 
@@ -52,6 +55,7 @@ public class Parser {
 		return new Stmt.Var(name, initializer);
 	}
 
+	// Parses while statement
 	private Stmt WhileStatement() {
 		Consume(TokenType.LEFT_PAREN, "Expect '(' after 'while'.");
 		Expr condition = Expression();
@@ -61,6 +65,7 @@ public class Parser {
 		return new Stmt.While(condition, body);
 	}
 
+	// Passes statement to correct parsing method
 	private Stmt Statement() {
 		if (Match(TokenType.FOR)) return ForStatement();
 		if (Match(TokenType.IF)) return IfStatement();
@@ -111,6 +116,7 @@ public class Parser {
 		return body;
 	}
 
+	// Parse if statement
 	private Stmt IfStatement() {
 		Consume(TokenType.LEFT_PAREN, "Expect '(' after 'if'.");
 		Expr condition = Expression();
@@ -125,18 +131,21 @@ public class Parser {
 		return new Stmt.If(condition, thenBranch, elseBranch);
 	}
 
+	// Parse print statement
 	private Stmt PrintStatement() {
 		Expr value = Expression();
 		Consume(TokenType.SEMICOLON, "Expect ';' after value.");
 		return new Stmt.Print(value);
 	}
 
+	// Parse expression statement
 	private Stmt ExpressionStatement() {
 		Expr expr = Expression();
 		Consume(TokenType.SEMICOLON, "Expect ';' after expression.");
 		return new Stmt.Expression(expr);
 	}
 
+	// Parse scope block
 	private List<Stmt> Block() {
 		List<Stmt> statements = new List<Stmt>();
 
@@ -148,6 +157,7 @@ public class Parser {
 		return statements;
 	}
 
+	// Parse variable assignment
 	private Expr Assignment() {
 		Expr expr = Or();
 
@@ -166,6 +176,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Parse or
 	private Expr Or() {
 		Expr expr = And();
 
@@ -178,6 +189,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Parse and
 	private Expr And() {
 		Expr expr = Equality();
 
@@ -190,6 +202,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Parse equal and not equal
 	private Expr Equality() {
 		Expr expr = Comparator();
 		while (Match(TokenType.BANG_EQUAL, TokenType.EQUAL_EQUAL)) {
@@ -201,6 +214,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Parse comparisons
 	private Expr Comparator() {
 		Expr expr = Term();
 
@@ -213,6 +227,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Parse addition and subtraction
 	private Expr Term() {
 		Expr expr = Factor();
 
@@ -225,6 +240,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Parse multiplication and division
 	private Expr Factor() {
 		Expr expr = Unary();
 
@@ -237,6 +253,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Parse unary expression
 	private Expr Unary() {
 		if (Match(TokenType.BANG, TokenType.MINUS)) {
 			Token opr = Previous();
@@ -247,6 +264,7 @@ public class Parser {
 		return Call();
 	}
 
+	// Parse function call
 	private Expr Call() {
 		Expr expr = Primary();
 
@@ -261,6 +279,7 @@ public class Parser {
 		return expr;
 	}
 
+	// Handle call arguments
 	private Expr Arguments(Expr callee) {
 		List<Expr> arguments = new List<Expr>();
 
@@ -279,6 +298,7 @@ public class Parser {
 		return new Expr.Call(callee, paren, arguments);
 	}
 
+	// Parse primary rule
 	private Expr Primary() {
 		if (Match(TokenType.FALSE)) return new Expr.Literal(false);
 		if (Match(TokenType.TRUE))	return new Expr.Literal(true);
