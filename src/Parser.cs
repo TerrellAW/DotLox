@@ -287,6 +287,10 @@ public class Parser {
 		if (!Check(TokenType.RIGHT_PAREN)) {
 			// If not empty, add expressions to arguments list
 			do {
+				// Limit to 255 args
+				if (arguments.Count >= 255)
+					// Report error without panic
+					new ParseError(Peek(), "Can't have more than 255 arguments.");
 				arguments.Add(Expression());
 			} while (Match(TokenType.COMMA));
 		}
@@ -294,7 +298,7 @@ public class Parser {
 		// Handle closing paren
 		Token paren = Consume(TokenType.RIGHT_PAREN, "Expect ')' after arguments.");
 
-		// Return function call
+		// Return function call node
 		return new Expr.Call(callee, paren, arguments);
 	}
 
