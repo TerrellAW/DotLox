@@ -20,6 +20,7 @@ output_dir = sys.argv[1]
 ast_types = [ 
     "Assign    : Token name, Expr value",
     "Binary    : Expr left, Token opr, Expr right",
+    "Call      : Expr callee, Token paren, List<Expr> arguments",
     "Grouping  : Expr expression",
     "Literal   : Object? value",
     "Logical   : Expr left, Token opr, Expr right",
