@@ -64,6 +64,26 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return null;
 	}
 
+	public Object? VisitCallExpr(Expr.Call expr) {
+		Object callee = Evaluate(expr.getCallee());
+
+		List<Object> arguments = new List<Object>();
+		foreach (Expr argument in expr.getArguments()) {
+			arguments.Add(Evaluate(argument));
+		}
+
+		if (!(callee is DotLoxCallable)) {
+			throw new RuntimeError(expr.getParen(), "Can only call functions and classes.");
+		}
+
+		DotLoxCallable function = (DotLoxCallable)callee;
+		if (arguments.Count != function.Arity()) {
+			throw new RuntimeError(expr.getParen(), $"Expected {function.Arity()} arguments but got {arguments.Count}.");
+		}
+
+		return function.Call(this, arguments);
+	}
+
 	public Object? VisitGroupingExpr(Expr.Grouping expr) {
 		return Evaluate(expr.getExpression());
 	}
