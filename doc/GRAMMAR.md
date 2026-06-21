@@ -31,6 +31,8 @@ funDecl     ->  "fun" function ;
 
 function    ->  IDENTIFIER "(" parameters? ")" block ;
 
+parameters  ->  IDENTIFIER ( "," IDENTIFIER )* ;
+
 varDecl     ->  "var" IDENTIFIER ( "=" expression )? ";" ;
 
 statement   ->  exprStmt | forStmt | ifStmt | printStmt | whileStmt | block ;
