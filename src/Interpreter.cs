@@ -4,7 +4,22 @@ namespace DotLox;
 
 // Uses recursive descent to interpret the AST created by Parser
 public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
+	internal readonly DotLoxEnv globals = new DotLoxEnv();
 	private DotLoxEnv environment = new DotLoxEnv();
+
+	// Constructor
+	public Interpreter() {
+		/**
+		 * Source - https://github.com/Nrosa01/CSLox/blob/master/Runtime/Src/Lox/Interpreter.cs
+		 * Programmed by Nrosa01, modified by me.
+		 * Retrieved 2026-06-20
+		 */
+		globals.Define("clock", new NativeFunction(0, (interpreter, arguments) => {
+			return DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000.0;
+		}));
+
+		environment = globals;
+	}
 
 	internal void Interpret(List<Stmt> statements) {
 		try {
