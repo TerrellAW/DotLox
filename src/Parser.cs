@@ -34,6 +34,7 @@ public class Parser {
 	// Tries to pass declaration to parsing method
 	private Stmt? Declaration() {
 		try {
+			if (Match(TokenType.FUN)) return Function("function");
 			if (Match(TokenType.VAR)) return VarDeclaration();
 			return Statement();
 		} catch (ParseError e) {
@@ -143,6 +144,31 @@ public class Parser {
 		Expr expr = Expression();
 		Consume(TokenType.SEMICOLON, "Expect ';' after expression.");
 		return new Stmt.Expression(expr);
+	}
+
+	// Parse function, parameter for specifying function vs method
+	private Stmt.Function Function(string kind) {
+		// Handle errors or consume
+		Token name = Consume(TokenType.IDENT, $"Expect {kind} name.");
+		Consume(TokenType.LEFT_PAREN, $"Expect '(' after {kind} name.");
+
+		// Parse parameter list
+		List<Token> parameters = new List<Token>();
+		if (!Check(TokenType.RIGHT_PAREN)) {
+			do {
+				if (parameters.Count >= 255) {
+					new ParseError(Peek(), "Can't have more than 255 parameters.");
+				}
+
+				parameters.Add(Consume(TokenType.IDENT, "Expect parameter name."));
+			} while (Match(TokenType.COMMA))
+		}
+		Consume(TokenType.RIGHT_PAREN, "Expect ')' after parameters.");
+
+		// Parse block and wrap in function node
+		Consume(TokenType.LEFT_BRACE, "Expect '{' before " + kind + " body.");
+		List<Stmt> body = Block();
+		return new Stmt.Function(name, parameters, body);
 	}
 
 	// Parse scope block
