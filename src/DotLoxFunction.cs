@@ -3,10 +3,14 @@ namespace DotLox;
 public class DotLoxFunction : DotLoxCallable {
 	// Function declaration
 	private readonly Stmt.Function declaration;
+	
+	// Store environment for closures
+	private readonly DotLoxEnv closure;
 
 	// Constructor
-	public DotLoxFunction(Stmt.Function declaration) {
+	public DotLoxFunction(Stmt.Function declaration, DotLoxEnv closure) {
 		this.declaration = declaration;
+		this.closure = closure;
 	}
 
 	// Arity implementation, takes arity from declaration's parameter list count
@@ -17,7 +21,7 @@ public class DotLoxFunction : DotLoxCallable {
 	// Call implementation for function calls
 	public Object? Call(Interpreter interpreter, List<Object> arguments) {
 		// Create new scope for parameters and body
-		DotLoxEnv environment = new DotLoxEnv(interpreter.globals);
+		DotLoxEnv environment = new DotLoxEnv(closure);
 		
 		// Store parameters in the new scope
 		for (int i = 0; i < declaration.getParameters().Count; i++) {

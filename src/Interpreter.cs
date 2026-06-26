@@ -184,7 +184,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 	}
 
 	public Object? VisitFunctionStmt(Stmt.Function stmt) {
-		DotLoxFunction function = new DotLoxFunction(stmt);
+		DotLoxFunction function = new DotLoxFunction(stmt, environment);
 		environment.Define(stmt.getName().getLexeme(), function);
 		return null;
 	}
