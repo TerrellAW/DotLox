@@ -12,6 +12,7 @@ public abstract class Stmt {
 		public T VisitFunctionStmt(Function stmt);
 		public T VisitIfStmt(If stmt);
 		public T VisitPrintStmt(Print stmt);
+		public T VisitReturnStmt(Return stmt);
 		public T VisitWhileStmt(While stmt);
 		public T VisitVarStmt(Var stmt);
 	}
@@ -122,6 +123,29 @@ public abstract class Stmt {
 
 		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitPrintStmt(this);
+		}
+	}
+
+	public class Return : Stmt {
+
+		readonly Token keyword;
+		readonly Expr? value;
+
+		public Token getKeyword() {
+			return keyword;
+		}
+
+		public Expr? getValue() {
+			return value;
+		}
+
+		public Return(Token keyword, Expr? value) {
+			this.keyword = keyword;
+			this.value = value;
+		}
+
+		public override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitReturnStmt(this);
 		}
 	}
 
