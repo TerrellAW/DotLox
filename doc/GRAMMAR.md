@@ -35,11 +35,7 @@ parameters  ->  IDENTIFIER ( "," IDENTIFIER )* ;
 
 varDecl     ->  "var" IDENTIFIER ( "=" expression )? ";" ;
 
-statement   ->  exprStmt | forStmt | ifStmt | printStmt | whileStmt | block ;
-
-block       ->  "{" declaration* "}" ;
-
-whileStmt   ->  "while" "(" expression ")" statement ;
+statement   ->  exprStmt | forStmt | ifStmt | printStmt | returnStmt | whileStmt | block ;
 
 exprStmt    ->  expression ";" ;
 
@@ -48,6 +44,12 @@ forStmt     ->  "for" "(" ( varDecl | exprStmt | ";" ) expression? ";" expressio
 ifStmt      ->  "if" "(" expression ")" statement ( "else" statement )? ;
 
 printStmt   ->  "print" expression ";" ;
+
+returnStmt  ->  "return" expression? ";" ;
+
+whileStmt   ->  "while" "(" expression ")" statement ;
+
+block       ->  "{" declaration* "}" ;
 
 expression  ->  assignment ;
 
