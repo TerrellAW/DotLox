@@ -183,6 +183,12 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return null;
 	}
 
+	public Object? VisitFunctionStmt(Stmt.Function stmt) {
+		DotLoxFunction function = new DotLoxFunction(stmt);
+		environment.Define(stmt.getName().getLexeme(), function);
+		return null;
+	}
+
 	public Object? VisitIfStmt(Stmt.If stmt) {
 		if (IsTruthy(Evaluate(stmt.getCondition()))) {
 			Execute(stmt.getThenbranch());
