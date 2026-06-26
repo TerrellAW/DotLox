@@ -231,7 +231,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		stmt.Accept(this);
 	}
 
-	private void ExecuteBlock(List<Stmt> statements, DotLoxEnv environment) {
+	public void ExecuteBlock(List<Stmt> statements, DotLoxEnv environment) {
 		DotLoxEnv previous = this.environment;
 
 		try {
