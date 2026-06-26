@@ -161,7 +161,7 @@ public class Parser {
 				}
 
 				parameters.Add(Consume(TokenType.IDENT, "Expect parameter name."));
-			} while (Match(TokenType.COMMA))
+			} while (Match(TokenType.COMMA));
 		}
 		Consume(TokenType.RIGHT_PAREN, "Expect ')' after parameters.");
 
