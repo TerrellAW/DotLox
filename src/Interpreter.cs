@@ -204,6 +204,13 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return null;
 	}
 
+	public Object? VisitReturnStmt(Stmt.Return stmt) {
+		Object? value = null;
+		if (stmt.getValue() != null) value = Evaluate(stmt.getValue());
+
+		throw new Return(value);
+	}
+
 	public Object? VisitVarStmt(Stmt.Var stmt) {
 		Object? value = null;
 		if (stmt.getInitializer() != null) {

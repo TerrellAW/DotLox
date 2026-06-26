@@ -1,0 +1,10 @@
+namespace DotLox;
+
+// Uses exception to get to bottom of stack where the call is
+public class Return : System.Exception {
+	private readonly Object? value;
+
+	public Return(Object? value) : base(null, null) {
+		this.value = value;
+	}
+}

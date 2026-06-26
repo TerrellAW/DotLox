@@ -1,6 +1,6 @@
 namespace DotLox;
 
-class DotLoxFunction : DotLoxCallable {
+public class DotLoxFunction : DotLoxCallable {
 	// Function declaration
 	private readonly Stmt.Function declaration;
 
@@ -24,8 +24,14 @@ class DotLoxFunction : DotLoxCallable {
 			environment.Define(declaration.getParameters()[i].getLexeme(), arguments[i]);
 		}
 
-		// Execute code in function's block
-		interpreter.ExecuteBlock(declaration.getBody(), environment);
+		// Execute code in function's block until a return statement is found
+		try {
+			interpreter.ExecuteBlock(declaration.getBody(), environment);
+		} catch (Return returnVal) {
+			return returnVal.getValue();
+		}
+
+		// If code execution done and no return statement, return nil
 		return null;
 	}
 
