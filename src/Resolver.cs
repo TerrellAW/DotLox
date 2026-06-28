@@ -24,10 +24,37 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		return null;
 	}
 
+	public object? VisitExpressionStmt(Stmt.Expression stmt) {
+		Resolve(stmt.getExpression());
+		return null;
+	}
+
 	public object? VisitFunctionStmt(Stmt.Function stmt) {
 		Declare(stmt.getName());
 		Define(stmt.getName());
 		ResolveFunction(stmt);
+		return null;
+	}
+
+	public object? VisitIfStmt(Stmt.If stmt) {
+		// Analyse both branches
+		Resolve(stmt.getCondition());
+		Resolve(stmt.getThenbranch());
+
+		if (stmt.getElsebranch() != null) Resolve(stmt.getElsebranch());
+		return null;
+	}
+
+	public object? VisitPrintStmt(Stmt.Print stmt) {
+		Resolve(stmt.getExpression());
+		return null;
+	}
+
+	public object? VisitReturnStmt(Stmt.Return stmt) {
+		if (stmt.getValue() != null) {
+			Resolve(stmt.getValue());
+		}
+
 		return null;
 	}
 
@@ -36,18 +63,59 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		Declare(stmt.getName());
 
 		// Resolve initializer if not null
-		if (stmt.getInitializer() != null) {
-			Resolve(stmt.getInitializer());
-		}
+		if (stmt.getInitializer() != null) Resolve(stmt.getInitializer());
 
 		// Define variable
 		Define(stmt.getName());
 		return null;
 	}
 
+	public object? VisitWhileStmt(Stmt.While stmt) {
+		// Analyse loop exactly once
+		Resolve(stmt.getCondition());
+		Resolve(stmt.getBody());
+		return null;
+	}
+
 	public object? VisitAssignExpr(Expr.Assign expr) {
 		Resolve(expr.getValue());
 		ResolveLocal(expr, expr.getName());
+		return null;
+	}
+
+	public object? VisitBinaryExpr(Expr.Binary expr) {
+		Resolve(expr.getLeft());
+		Resolve(expr.getRight());
+		return null;
+	}
+
+	public object? VisitCallExpr(Expr.Call expr) {
+		Resolve(expr.getCallee());
+
+		foreach (Expr argument in expr.getArguments()) {
+			Resolve(argument);
+		}
+
+		return null;
+	}
+
+	public object? VisitGroupingExpr(Expr.Grouping expr) {
+		Resolve(expr.getExpression());
+		return null;
+	}
+
+	public object? VisitLiteralExpr(Expr.Literal expr) {
+		return null;
+	}
+
+	public object? VisitLogicalExpr(Expr.Logical expr) {
+		Resolve(expr.getLeft());
+		Resolve(expr.getRight());
+		return null;
+	}
+
+	public object? VisitUnaryExpr(Expr.Unary expr) {
+		Resolve(expr.getRight());
 		return null;
 	}
 
