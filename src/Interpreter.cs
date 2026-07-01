@@ -4,6 +4,7 @@ namespace DotLox;
 
 // Uses recursive descent to interpret the AST created by Parser
 public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
+	internal readonly Dictionary<Expr, int> locals = new Dictionary<Expr, int>();
 	internal readonly DotLoxEnv globals = new DotLoxEnv();
 	private DotLoxEnv environment = new DotLoxEnv();
 
@@ -134,7 +135,19 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 	}
 
 	public Object? VisitVariableExpr(Expr.Variable expr) {
-		return environment.Get(expr.getName());
+		return LookupVariable(expr.getName(), expr);
+	}
+
+	private Object? LookupVariable(Token name, Expr expr) {
+		// Get distance for local variable
+		int distance = locals[expr];
+		
+		// If distance null assume its a global, which are not stored in the Dictionary
+		if (distance != null) {
+			return environment.GetAt(distance, name.getLexeme());
+		} else {
+			return globals.Get(name);
+		}
 	}
 
 	private void CheckNumOpr(Token? opr, Object? oprnd) {
@@ -230,12 +243,24 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 
 	public Object? VisitAssignExpr(Expr.Assign expr) {
 		Object? value = Evaluate(expr.getValue());
-		environment.Assign(expr.getName(), value);
+
+		int distance = locals[expr];
+		if (distance != null) {
+			environment.AssignAt(distance, expr.getName(), value);
+		} else {
+			globals.Assign(expr.getName(), value);
+		}
+
 		return value;
 	}
 
 	private void Execute(Stmt stmt) {
 		stmt.Accept(this);
+	}
+
+	// Tells interpreter how many layers of scoping are between a declaration and a call
+	internal void Resolve(Expr expr, int depth) {
+		locals[expr] = depth;
 	}
 
 	public void ExecuteBlock(List<Stmt> statements, DotLoxEnv environment) {

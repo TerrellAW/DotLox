@@ -56,4 +56,25 @@ public class DotLoxEnv {
 	public void Define(string name, object? value) {
 		values.Add(name, value);
 	}
+
+	// Get function that takes advantage of Resolver's static analysis
+	public object? GetAt(int distance, string name) {
+		return Ancestor(distance).values[name];
+	}
+
+	// Assign to a resolved variable at a specific known location
+	public void AssignAt(int distance, Token name, object value) {
+		Ancestor(distance).values[name.getLexeme()] = value;
+	}
+
+	// Find environment using distance acquired from Resolver
+	internal DotLoxEnv? Ancestor(int distance) {
+		DotLoxEnv? environment = this;
+
+		for (int i = 0; i < distance; i++) {
+			environment = environment.getEnclosing();
+		}
+
+		return environment;
+	}
 }
