@@ -140,11 +140,9 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 
 	private Object? LookupVariable(Token name, Expr expr) {
 		// Get distance for local variable
-		int distance = locals[expr];
-		
-		// If distance null assume its a global, which are not stored in the Dictionary
-		if (distance != null) {
+		if (locals.TryGetValue(expr, out int distance)) {
 			return environment.GetAt(distance, name.getLexeme());
+		// If distance null assume its a global, which are not stored in the Dictionary
 		} else {
 			return globals.Get(name);
 		}
@@ -244,8 +242,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 	public Object? VisitAssignExpr(Expr.Assign expr) {
 		Object? value = Evaluate(expr.getValue());
 
-		int distance = locals[expr];
-		if (distance != null) {
+		if (locals.TryGetValue(expr, out int distance)) {
 			environment.AssignAt(distance, expr.getName(), value);
 		} else {
 			globals.Assign(expr.getName(), value);

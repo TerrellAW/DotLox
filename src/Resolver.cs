@@ -121,7 +121,7 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 	public object? VisitVariableExpr(Expr.Variable expr) {
 		// Handle uninitialized variable being assigned to itself
-		if (!(scopes.Count == 0) && (scopes.Peek()[expr.getName().getLexeme()].Equals(bool.FalseString))) {
+		if (!(scopes.Count == 0) && (scopes.Peek().TryGetValue(expr.getName().getLexeme(), out bool initialized) && !initialized)) {
 			DotLox.HandleError(expr.getName(), "Can't read local variable in its own initializer.");
 		}
 
