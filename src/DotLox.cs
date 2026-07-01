@@ -66,6 +66,10 @@ public class DotLox {
 		// Do not execute invalid code
 		if (hadError) return;
 
+		// Run resolver if no errors
+		Resolver resolver = new Resolver(interpreter);
+		resolver.Resolve(statements);
+
 		// Execute code
 		interpreter.Interpret(statements);
 	}
