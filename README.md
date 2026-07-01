@@ -61,6 +61,9 @@ This program can be run with [rlwrap](https://github.com/hanslub42/rlwrap) like 
 rlwrap -a dotlox
 ```
 
+> [!WARNING]
+> The first line in the REPL will be garbled with `rlwrap`
+
 There is also a `make` target which can automatically run a build that is in the `bin/` directory:
 
 ```bash
