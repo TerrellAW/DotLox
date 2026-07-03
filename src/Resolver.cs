@@ -7,6 +7,14 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	// Stack of scopes
 	private readonly Stack<Dictionary<string, bool>> scopes = new Stack<Dictionary<string, bool>>();
 
+	// Function tracker
+	private FunctionType currentFunction = FunctionType.NONE;
+
+	private enum FunctionType {
+		NONE,
+		FUNCTION
+	}
+
 	public Resolver(Interpreter interpreter) {
 		this.interpreter = interpreter;
 	}
@@ -32,7 +40,7 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	public object? VisitFunctionStmt(Stmt.Function stmt) {
 		Declare(stmt.getName());
 		Define(stmt.getName());
-		ResolveFunction(stmt);
+		ResolveFunction(stmt, FunctionType.FUNCTION);
 		return null;
 	}
 
@@ -51,6 +59,9 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	}
 
 	public object? VisitReturnStmt(Stmt.Return stmt) {
+		if (currentFunction == FunctionType.NONE)
+			DotLox.HandleError(stmt.getKeyword(), "Can't return from top-level code.");
+
 		if (stmt.getValue() != null) {
 			Resolve(stmt.getValue());
 		}
@@ -148,7 +159,10 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		expr.Accept(this);
 	}
 
-	private void ResolveFunction(Stmt.Function function) {
+	private void ResolveFunction(Stmt.Function function, FunctionType type) {
+		FunctionType enclosingFunction = currentFunction;
+		currentFunction = type;
+
 		BeginScope();
 
 		// Handle function parameters
@@ -161,6 +175,7 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		Resolve(function.getBody());
 
 		EndScope();
+		currentFunction = enclosingFunction;
 	}
 
 	// Create a new scope and add it to stack
@@ -180,6 +195,10 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 		// Declare variable and mark as not ready
 		Dictionary<string, bool> scope = scopes.Peek();
+		if (scope.ContainsKey(name.getLexeme())) {
+			DotLox.HandleError(name, "Already a variable with this name in this scope.");
+		}
+
 		scope[name.getLexeme()] = false;
 	}
 

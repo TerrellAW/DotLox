@@ -63,12 +63,15 @@ public class DotLox {
 		Parser parser = new Parser(tokens);
 		List<Stmt> statements = parser.Parse();
 
-		// Do not execute invalid code
+		// Do not resolve invalid code
 		if (hadError) return;
 
 		// Run resolver if no errors
 		Resolver resolver = new Resolver(interpreter);
 		resolver.Resolve(statements);
+
+		// Do not execute invalid code
+		if (hadError) return;
 
 		// Execute code
 		interpreter.Interpret(statements);
