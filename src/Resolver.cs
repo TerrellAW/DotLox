@@ -213,11 +213,11 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 	// Resolve local variable assignment
 	private void ResolveLocal(Expr expr, Token name) {
-		// Decrement through scopes
-		for (int i = scopes.Count - 1; i >= 0; i--) {
+		// Increment through scopes
+		for (int i = 0; i < scopes.Count; i++) {
 			// Pass amount of layers since declaration to interpreter
 			if (scopes.ElementAt(i).ContainsKey(name.getLexeme())) {
-				interpreter.Resolve(expr, scopes.Count - 1 - i);
+				interpreter.Resolve(expr, i);
 				return;
 			}
 		}
