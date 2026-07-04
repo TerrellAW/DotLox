@@ -54,7 +54,7 @@ public class DotLoxEnv {
 
 	// Define a variable
 	public void Define(string name, object? value) {
-		values.Add(name, value);
+		values[name] = value;
 	}
 
 	// Get function that takes advantage of Resolver's static analysis
