@@ -10,6 +10,7 @@ public abstract class Expr {
 		public T VisitAssignExpr(Assign expr);
 		public T VisitBinaryExpr(Binary expr);
 		public T VisitCallExpr(Call expr);
+		public T VisitGetExpr(Get expr);
 		public T VisitGroupingExpr(Grouping expr);
 		public T VisitLiteralExpr(Literal expr);
 		public T VisitLogicalExpr(Logical expr);
@@ -95,6 +96,29 @@ public abstract class Expr {
 
 		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitCallExpr(this);
+		}
+	}
+
+	public class Get : Expr {
+
+		readonly Expr obj;
+		readonly Token name;
+
+		public Expr getObj() {
+			return obj;
+		}
+
+		public Token getName() {
+			return name;
+		}
+
+		public Get(Expr obj, Token name) {
+			this.obj = obj;
+			this.name = name;
+		}
+
+		public override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitGetExpr(this);
 		}
 	}
 
