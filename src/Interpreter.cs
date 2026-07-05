@@ -278,4 +278,11 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		ExecuteBlock(stmt.getStatements(), new DotLoxEnv(environment));
 		return null;
 	}
+
+	public Object? VisitClassStmt(Stmt.Class stmt) {
+		environment.Define(stmt.getName().getLexeme(), null);
+		DotLoxClass klass = new DotLoxClass(stmt.getName().getLexeme());
+		environment.Assign(stmt.getName(), klass);
+		return null;
+	}
 }
