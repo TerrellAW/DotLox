@@ -229,6 +229,11 @@ public class Parser {
 			if (expr is Expr.Variable) {
 				Token name = ((Expr.Variable)expr).getName();
 				return new Expr.Assign(name, value);
+			// Handle object properties
+			} else if (expr is Expr.Get) {
+				// Use already parsed Expr.Get to make Expr.Set
+				Expr.Get get = (Expr.Get)expr;
+				return new Expr.Set(get.getObj(), get.getName(), value);
 			}
 
 			DotLox.HandleError(equals, "Invalid assignment target.");
