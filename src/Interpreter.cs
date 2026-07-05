@@ -129,6 +129,18 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return Evaluate(expr.getRight());
 	}
 
+	public Object? VisitSetExpr(Expr.Set expr) {
+		Object? obj = Evaluate(expr.getObj());
+
+		if (!(obj is DotLoxInstance)) {
+			throw new RuntimeError(expr.getName(), "Only instances have fields.");
+		}
+
+		Object value = Evaluate(expr.getValue());
+		((DotLoxInstance)obj).Set(expr.getName(), value);
+		return value;
+	}
+
 	public Object? VisitUnaryExpr(Expr.Unary expr) {
 		Object? right = Evaluate(expr.getRight());
 

@@ -17,6 +17,10 @@ public class DotLoxInstance {
 		throw new RuntimeError(name, $"Undefined property '{name.getLexeme()}'.");
 	}
 
+	public void Set(Token name, object value) {
+		fields[name.getLexeme()] = value;
+	}
+
     public override string ToString() {
         return klass.getName() + " instance";
     }
