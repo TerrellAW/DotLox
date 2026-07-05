@@ -100,6 +100,15 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return function.Call(this, arguments);
 	}
 
+	public Object? VisitGetExpr(Expr.Get expr) {
+		Object? obj = Evaluate(expr.getObj());
+		if (obj is DotLoxInstance) {
+			return ((DotLoxInstance)obj).Get(expr.getName());
+		}
+
+		throw new RuntimeError(expr.getName(), "Only instances have properties.");
+	}
+
 	public Object? VisitGroupingExpr(Expr.Grouping expr) {
 		return Evaluate(expr.getExpression());
 	}
