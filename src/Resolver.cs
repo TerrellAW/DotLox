@@ -32,6 +32,13 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		return null;
 	}
 
+	// Prevent infinite loop in malformed code
+	public object? VisitClassStmt(Stmt.Class stmt) {
+		Declare(stmt.getName());
+		Define(stmt.getName());
+		return null;
+	}
+
 	public object? VisitExpressionStmt(Stmt.Expression stmt) {
 		Resolve(stmt.getExpression());
 		return null;
