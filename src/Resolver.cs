@@ -137,6 +137,12 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		return null;
 	}
 
+	public object? VisitSetExpr(Expr.Set expr) {
+		Resolve(expr.getValue());
+		Resolve(expr.getObj());
+		return null;
+	}
+
 	public object? VisitUnaryExpr(Expr.Unary expr) {
 		Resolve(expr.getRight());
 		return null;
