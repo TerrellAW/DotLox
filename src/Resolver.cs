@@ -117,6 +117,11 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		return null;
 	}
 
+	public object? VisitGetExpr(Expr.Get expr) {
+		Resolve(expr.getObj());
+		return null;
+	}
+
 	public object? VisitGroupingExpr(Expr.Grouping expr) {
 		Resolve(expr.getExpression());
 		return null;
