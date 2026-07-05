@@ -25,6 +25,7 @@ ast_types = [
     "Grouping  : Expr expression",
     "Literal   : Object? value",
     "Logical   : Expr left, Token opr, Expr right",
+    "Set       : Expr obj, Token name, Expr value",
     "Unary     : Token opr, Expr right",
     "Variable  : Token name"
 ]
