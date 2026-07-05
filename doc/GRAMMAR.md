@@ -25,7 +25,9 @@ The rules are in order of descending precedence.
 ```
 program     ->  statement* EOF ;
 
-declaration ->  funDecl | varDecl | statement ;
+declaration ->  classDecl | funDecl | varDecl | statement ;
+
+classDecl   ->  "class" IDENTIFIER "{" function* "}" ;
 
 funDecl     ->  "fun" function ;
 
