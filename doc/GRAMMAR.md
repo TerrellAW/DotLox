@@ -23,7 +23,7 @@ The rules are in order of descending precedence.
 ### Grammar Rules
 
 ```
-program     ->  statement* EOF ;
+program     ->  declaration* EOF ;
 
 declaration ->  classDecl | funDecl | varDecl | statement ;
 
