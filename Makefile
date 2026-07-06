@@ -30,14 +30,12 @@ script:
 	python tool/generate_ast.py src/
 
 # Install to /usr/bin
-install:
+install: $(REL)
 	@if [ -f /usr/bin/$(EXE) ]; then	\
 		sudo rm /usr/bin/$(EXE)*;		\
 	fi
 	@if [ -f $(REL) ]; then				\
 		sudo mv $(REL)* /usr/bin; 		\
-	elif [ -f $(DBG) ]; then 			\
-		sudo mv $(DBG)* /usr/bin; 		\
 	fi
 
 # Run tests
