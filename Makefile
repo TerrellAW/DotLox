@@ -31,11 +31,13 @@ script:
 
 # Install to /usr/bin
 install:
-	sudo rm /usr/bin/$(EXE)*;
-	@if [ -f $(REL) ]; then			\
-		sudo mv $(REL)* /usr/bin; 	\
-	elif [ -f $(DBG) ]; then 		\
-		sudo mv $(DBG)* /usr/bin; 	\
+	@if [ -f /usr/bin/$(EXE) ]; then	\
+		sudo rm /usr/bin/$(EXE)*;		\
+	fi
+	@if [ -f $(REL) ]; then				\
+		sudo mv $(REL)* /usr/bin; 		\
+	elif [ -f $(DBG) ]; then 			\
+		sudo mv $(DBG)* /usr/bin; 		\
 	fi
 
 # Run tests
