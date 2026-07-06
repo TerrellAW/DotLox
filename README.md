@@ -39,6 +39,16 @@ With `dotnet`, run:
 dotnet build DotLox.csproj --configuration Release
 ```
 
+## Installation
+
+After building the interpreter it can be installed using `make`.
+
+```bash
+make install
+```
+
+This command will move the binary from `bin/` to `/usr/bin/`.
+
 ## Usage
 
 DotLox requires the [.NET 10.0](https://dotnet.microsoft.com/en-us/download/dotnet/10.0) runtime or newer to run.
@@ -67,11 +77,7 @@ rlwrap -a dotlox
 There is also a `make` target which can automatically run a build that is in the `bin/` directory:
 
 ```bash
-# For debug build
-make test-dbg
-
-# For release build
-make test-rel
+make test
 ```
 
 ### File Execution
