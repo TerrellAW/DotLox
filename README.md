@@ -53,7 +53,7 @@ This command will move the binary from `bin/` to `/usr/bin/`.
 
 ### Other
 
-The contents of the given builds `bin/` directory will need to be moved to a folder in your system's `$PATH`.
+The contents of the given build's `bin/` directory will need to be moved to a folder in your system's `$PATH`.
 
 **The `bin/` directories:**
 
