@@ -7,23 +7,23 @@
 DotLox currently has two additional features that make it stand out from the original Lox:
 
 1. Multi-line C-style comments
-```
+```c
 /*
 comment
 comment
 */
 ```
 
-2. Python style single-line comment
+2. Python-style single-line comments
 ```
 # comment
 ```
 
 ## Unix Shebang Compatibility
 
-The Python style single-line comment was added for compatibility with the Unix shebang feature:
+The Python-style single-line comments were added for compatibility with the Unix shebang feature:
 
-```
+```bash
 #!/usr/bin/dotlox
 
 print "Hello, World!";

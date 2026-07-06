@@ -41,6 +41,8 @@ dotnet build DotLox.csproj --configuration Release
 
 ## Installation
 
+### Unix and Unix-like
+
 After building the interpreter it can be installed using `make`.
 
 ```bash
@@ -48,6 +50,22 @@ make install
 ```
 
 This command will move the binary from `bin/` to `/usr/bin/`.
+
+### Other
+
+The contents of the given builds `bin/` directory will need to be moved to a folder in your system's `$PATH`.
+
+**The `bin/` directories:**
+
+Debug:
+```bash
+bin/Debug/net10.0/
+```
+
+Release:
+```bash
+bin/Release/net10.0/
+```
 
 ## Usage
 
