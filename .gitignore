@@ -58,6 +58,7 @@ nunit-*.xml
 
 # Vim
 *.swp
+*.swo
 
 # VSCode
 .vscode/
