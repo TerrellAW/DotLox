@@ -12,16 +12,15 @@ OBJ_DIR = obj
 DBG = $(BIN_DIR)/Debug/net10.0/dotlox
 REL = $(BIN_DIR)/Release/net10.0/dotlox
 
-.PHONY: debug release script test-dbg test-rel clean
+.PHONY: debug release script install test clean
 
 # Targets
 debug: $(DBG)
 release: $(REL)
 
-# Link object files into final binary
+# Build with dotnet
 $(DBG):
 	$(CC) build $(PROJ).csproj
-
 $(REL):
 	$(CC) build $(PROJ).csproj --configuration Release
 
@@ -29,11 +28,21 @@ $(REL):
 script:
 	python tool/generate_ast.py src/
 
+# Install to /usr/bin
+install:
+	@if [ -f $(REL) ]; then			\
+		sudo mv $(REL)* /usr/bin; 	\
+	elif [ -f $(DBG) ]; then 		\
+		sudo mv $(DBG)* /usr/bin; 	\
+	fi
+
 # Run tests
-test-dbg:
-	./$(DBG)
-test-rel:
-	./$(REL)
+test:
+	@if [ -f $(REL) ]; then		\
+		./$(REL);				\
+	elif [ -f $(DBG) ]; then	\
+		./$(DBG);				\
+	fi
 
 # Clean build artifacts via CLI parameter
 clean:
