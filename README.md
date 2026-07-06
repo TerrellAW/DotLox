@@ -90,7 +90,11 @@ dotlox path/to/file.lox
 
 ## Syntax
 
-The grammar can be found [here](doc/GRAMMAR.md). Further information on the Lox programming language can be found [here](https://github.com/munificent/craftinginterpreters).
+The grammar can be found [here](doc/GRAMMAR.md). 
+
+Features that differentiate DotLox from Lox can be found [here](doc/FEATURES.md).
+
+Further information on the Lox programming language can be found [here](https://github.com/munificent/craftinginterpreters).
 
 ## References
 
