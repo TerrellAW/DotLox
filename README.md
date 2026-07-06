@@ -55,14 +55,12 @@ This command will move the binary from `bin/` to `/usr/bin/`.
 
 The contents of the given build's `bin/` directory will need to be moved to a folder in your system's `$PATH`.
 
-**The `bin/` directories:**
-
-Debug:
+Debug build:
 ```bash
 bin/Debug/net10.0/
 ```
 
-Release:
+Release build:
 ```bash
 bin/Release/net10.0/
 ```
