@@ -43,13 +43,13 @@ dotnet build DotLox.csproj --configuration Release
 
 ### Unix and Unix-like
 
-After building the interpreter it can be installed using `make`.
+The release version of the interpreter can be built and installed with a `make` target.
 
 ```bash
 make install
 ```
 
-This command will move the binary from `bin/` to `/usr/bin/`.
+This command will build the release configuration and then move the resulting binary to `/usr/bin/`.
 
 ### Other
 
