@@ -102,6 +102,10 @@ class Scanner {
 					AddToken(TokenType.SLASH);
 				}
 				break;
+			// Shebang compatible comments
+			case '#':
+				while (Peek() != '\n' && !IsAtEnd()) Advance();
+				break;
 
 			// Ignored characters
 			case ' ':
