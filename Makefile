@@ -3,14 +3,15 @@ CC = dotnet
 
 # Project name
 PROJ = DotLox
+EXE	 = dotlox
 
 # Output directories
 BIN_DIR = bin
 OBJ_DIR = obj
 
 # Output binary
-DBG = $(BIN_DIR)/Debug/net10.0/dotlox
-REL = $(BIN_DIR)/Release/net10.0/dotlox
+DBG = $(BIN_DIR)/Debug/net10.0/$(EXE)
+REL = $(BIN_DIR)/Release/net10.0/$(EXE)
 
 .PHONY: debug release script install test clean
 
@@ -30,6 +31,7 @@ script:
 
 # Install to /usr/bin
 install:
+	sudo rm /usr/bin/$(EXE)*;
 	@if [ -f $(REL) ]; then			\
 		sudo mv $(REL)* /usr/bin; 	\
 	elif [ -f $(DBG) ]; then 		\
