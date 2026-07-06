@@ -20,11 +20,9 @@ release: $(REL)
 
 # Link object files into final binary
 $(DBG):
-	python tool/generate_ast.py src/
 	$(CC) build $(PROJ).csproj
 
 $(REL):
-	python tool/generate_ast.py src/
 	$(CC) build $(PROJ).csproj --configuration Release
 
 # Run code generation script
