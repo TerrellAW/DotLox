@@ -31,11 +31,11 @@ script:
 
 # Install to /usr/bin
 install: $(REL)
-	@if [ -f /usr/bin/$(EXE) ]; then	\
-		sudo rm /usr/bin/$(EXE)*;		\
+	@if [ -f /usr/bin/$(EXE) ]; then \
+		rm /usr/bin/$(EXE)*;		 \
 	fi
-	@if [ -f $(REL) ]; then				\
-		sudo mv $(REL)* /usr/bin; 		\
+	@if [ -f $(REL) ]; then			 \
+		mv $(REL)* /usr/bin; 		 \
 	fi
 
 # Run tests
