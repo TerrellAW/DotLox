@@ -387,6 +387,14 @@ public class Parser {
 		
 		if (Match(TokenType.NUM, TokenType.STRING)) return new Expr.Literal(Previous().getLiteral());
 
+		// Handle calls to superclass methods
+		if (Match(TokenType.SUPER)) {
+			Token keyword = Previous();
+			Consume(TokenType.DOT, "Expect '.' after 'super'.");
+			Token method = Consume(TokenType.IDENT, "Expect superclass method name.");
+			return new Expr.Super(keyword, method);
+		}
+
 		if (Match(TokenType.THIS)) return new Expr.This(Previous());
 
 		if (Match(TokenType.IDENT)) return new Expr.Variable(Previous());
