@@ -46,6 +46,10 @@ dotnet build DotLox.csproj --configuration Release
 The release version of the interpreter can be built and installed with a `make` target.
 
 ```bash
+# For systems with 'sudo' installed
+sudo make install
+
+# Otherwise login to root and do
 make install
 ```
 
