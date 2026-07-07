@@ -12,7 +12,7 @@ The following grammar denotes the rules in the DotLox programming language. It d
 - `TERMINAL`, a full caps terminal is a lexeme that can have various text representations, such as a number or a string
 - `nonterminal`, which is a named reference to another rule in the grammar, is lowercase with no quotes
 - `|`, denotes multiple choices, think of it as 'or'
-- `( option | option )`, denotes a grouping seperated with `|`, one must be chosen
+- `(  )`, denotes a grouping
 - `*`, denotes recursion, an option postfixed with this symbol can be repeated zero or more times
 - `+`, similar to recursion but an option must appear atleast once
 - `?`, denotes an optional value, an option postfixed with this symbol can appear zero or one time
