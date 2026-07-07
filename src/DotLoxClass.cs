@@ -20,6 +20,10 @@ public class DotLoxClass : DotLoxCallable {
 		if (methods.ContainsKey(name))
 			return methods[name];
 
+		// Inherit methods from superclass
+		if (superclass != null)
+			return superclass.FindMethod(name);
+
 		return null;
 	}
 
