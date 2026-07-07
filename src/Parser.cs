@@ -48,6 +48,14 @@ public class Parser {
 	// Parses class declaration
 	private Stmt ClassDeclaration() {
 		Token name = Consume(TokenType.IDENT, "Expect class name.");
+
+		// Handle inheritance
+		Expr.Variable? superclass = null;
+		if (Match(TokenType.LESS)) {
+			Consume(TokenType.IDENT, "Expect superclass name.");
+			superclass = new Expr.Variable(Previous());
+		}
+
 		Consume(TokenType.LEFT_BRACE, "Expect '{' before class body.");
 
 		// Handle class body
@@ -58,7 +66,7 @@ public class Parser {
 
 		Consume(TokenType.RIGHT_BRACE, "Expect '}' after class body.");
 
-		return new Stmt.Class(name, methods);
+		return new Stmt.Class(name, superclass, methods);
 	}
 
 	// Parses variable declaration

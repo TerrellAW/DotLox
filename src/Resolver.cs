@@ -49,6 +49,14 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		Declare(stmt.getName());
 		Define(stmt.getName());
 
+		// Resolve superclass if not null
+		if (stmt.getSuperclass() != null) {
+			if (stmt.getName().getLexeme().Equals(stmt.getSuperclass().getName().getLexeme()))
+				DotLox.HandleError(stmt.getSuperclass().getName(), "A class can't inherit from itself.");
+
+			Resolve(stmt.getSuperclass());
+		}
+
 		// Create scope for current state of object
 		// Will be used when 'this.property' is used
 		BeginScope();

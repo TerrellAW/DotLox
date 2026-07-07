@@ -305,6 +305,16 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 	}
 
 	public Object? VisitClassStmt(Stmt.Class stmt) {
+		// Interpret inheritance
+		Object? superclass = null;
+		if (stmt.getSuperclass() != null) {
+			superclass = Evaluate(stmt.getSuperclass());
+			// Check if superclass is an existing class
+			if (!(superclass is DotLoxClass)) {
+				throw new RuntimeError(stmt.getSuperclass().getName(), "Superclass must be a class.");
+			}
+		}
+
 		environment.Define(stmt.getName().getLexeme(), null);
 
 		// Interpret methods
@@ -314,7 +324,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			methods[method.getName().getLexeme()] = function;
 		}
 
-		DotLoxClass klass = new DotLoxClass(stmt.getName().getLexeme(), methods);
+		DotLoxClass klass = new DotLoxClass(stmt.getName().getLexeme(), (DotLoxClass?)superclass, methods);
 		environment.Assign(stmt.getName(), klass);
 		return null;
 	}
