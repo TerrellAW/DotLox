@@ -379,6 +379,8 @@ public class Parser {
 		
 		if (Match(TokenType.NUM, TokenType.STRING)) return new Expr.Literal(Previous().getLiteral());
 
+		if (Match(TokenType.THIS)) return new Expr.This(Previous());
+
 		if (Match(TokenType.IDENT)) return new Expr.Variable(Previous());
 		
 		if (Match(TokenType.LEFT_PAREN)) {

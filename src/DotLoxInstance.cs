@@ -18,7 +18,9 @@ public class DotLoxInstance {
 
 		// Search for method, shadowed by field
 		DotLoxFunction? method = klass.FindMethod(name.getLexeme());
-		if (method != null) return method;
+
+		// Handle new scope
+		if (method != null) return method.Bind(this);
 
 		throw new RuntimeError(name, $"Undefined property '{name.getLexeme()}'.");
 	}

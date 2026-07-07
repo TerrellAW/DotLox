@@ -38,11 +38,18 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		Declare(stmt.getName());
 		Define(stmt.getName());
 
+		// Create scope for current state of object
+		// Will be used when 'this.property' is used
+		BeginScope();
+		scopes.Peek()["this"] = true;
+
 		// Resolve methods
 		foreach (Stmt.Function method in stmt.getMethods()) {
 			FunctionType decl = FunctionType.METHOD;
 			ResolveFunction(method, decl);
 		}
+
+		EndScope();
 
 		return null;
 	}
@@ -148,6 +155,11 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	public object? VisitSetExpr(Expr.Set expr) {
 		Resolve(expr.getValue());
 		Resolve(expr.getObj());
+		return null;
+	}
+
+	public object? VisitThisExpr(Expr.This expr) {
+		ResolveLocal(expr, expr.getKeyword());
 		return null;
 	}
 

@@ -13,6 +13,13 @@ public class DotLoxFunction : DotLoxCallable {
 		this.closure = closure;
 	}
 
+	// Bind an environment that will be used by 'this' expression
+	public DotLoxFunction Bind(DotLoxInstance instance) {
+		DotLoxEnv environment = new DotLoxEnv(closure);
+		environment.Define("this", instance);
+		return new DotLoxFunction(declaration, environment);
+	}
+
 	// Arity implementation, takes arity from declaration's parameter list count
 	public int Arity() {
 		return declaration.getParameters().Count;

@@ -141,6 +141,10 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return value;
 	}
 
+	public Object? VisitThisExpr(Expr.This expr) {
+		return LookupVariable(expr.getKeyword(), expr);
+	}
+
 	public Object? VisitUnaryExpr(Expr.Unary expr) {
 		Object? right = Evaluate(expr.getRight());
 
