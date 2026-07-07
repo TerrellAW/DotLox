@@ -75,5 +75,5 @@ call        ->  primary ( "(" arguments? ")" | "." IDENTIFIER )* ;
 
 arguments   ->  expression ( "," expression )* ;
 
-primary     ->  NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" | IDENTIFIER ;
+primary     ->  NUMBER | STRING | IDENTIFIER | "true" | "false" | "nil" | "this" | (" expression ")" | "super" "." IDENTIFIER ;
 ```
