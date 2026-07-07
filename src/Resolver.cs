@@ -57,6 +57,12 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 			Resolve(stmt.getSuperclass());
 		}
 
+		// Create environment for superclass methods
+		if (stmt.getSuperclass() != null) {
+			BeginScope();
+			scopes.Peek()["super"] = true;
+		}
+
 		// Create scope for current state of object
 		// Will be used when 'this.property' is used
 		BeginScope();
@@ -74,6 +80,8 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		}
 
 		EndScope();
+
+		if (stmt.getSuperclass() != null) EndScope();
 
 		currentClass = enclosingClass;
 		return null;
@@ -185,6 +193,11 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	public object? VisitSetExpr(Expr.Set expr) {
 		Resolve(expr.getValue());
 		Resolve(expr.getObj());
+		return null;
+	}
+
+	public object? VisitSuperExpr(Expr.Super expr) {
+		ResolveLocal(expr, expr.getKeyword());
 		return null;
 	}
 

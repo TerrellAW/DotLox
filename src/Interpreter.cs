@@ -141,6 +141,22 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		return value;
 	}
 
+	public Object? VisitSuperExpr(Expr.Super expr) {
+		// Look up superclass
+		int distance = locals[expr];
+		DotLoxClass superclass = (DotLoxClass)environment.GetAt(distance, "super");
+
+		// Bind 'this' to the object 'super' is accessed from
+		DotLoxInstance obj = (DotLoxInstance)environment.GetAt(distance - 1, "this");
+
+		// Look up and bind superclass method to object
+		DotLoxFunction? method = superclass.FindMethod(expr.getMethod().getLexeme());
+		if (method == null) {
+			throw new RuntimeError(expr.getMethod(), $"Undefined property '{expr.getMethod().getLexeme()}'.");
+		}
+		return method.Bind(obj);
+	}
+
 	public Object? VisitThisExpr(Expr.This expr) {
 		return LookupVariable(expr.getKeyword(), expr);
 	}
@@ -317,6 +333,12 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 
 		environment.Define(stmt.getName().getLexeme(), null);
 
+		// Create new environment for superclass methods
+		if (superclass != null) {
+			environment = new DotLoxEnv(environment);
+			environment.Define("super", superclass);
+		}
+
 		// Interpret methods
 		Dictionary<string, DotLoxFunction> methods = new();
 		foreach (Stmt.Function method in stmt.getMethods()) {
@@ -325,6 +347,11 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		}
 
 		DotLoxClass klass = new DotLoxClass(stmt.getName().getLexeme(), (DotLoxClass?)superclass, methods);
+
+		if (superclass != null) {
+			environment = environment.getEnclosing();
+		}
+
 		environment.Assign(stmt.getName(), klass);
 		return null;
 	}
