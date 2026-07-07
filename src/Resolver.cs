@@ -16,6 +16,13 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		METHOD
 	}
 
+	private enum ClassType {
+		NONE,
+		CLASS
+	}
+
+	private ClassType currentClass = ClassType.NONE;
+
 	public Resolver(Interpreter interpreter) {
 		this.interpreter = interpreter;
 	}
@@ -35,6 +42,9 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 	// Prevent infinite loop in malformed code
 	public object? VisitClassStmt(Stmt.Class stmt) {
+		ClassType enclosingClass = currentClass;
+		currentClass = ClassType.CLASS;
+
 		Declare(stmt.getName());
 		Define(stmt.getName());
 
@@ -51,6 +61,7 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 		EndScope();
 
+		currentClass = enclosingClass;
 		return null;
 	}
 
@@ -159,6 +170,12 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	}
 
 	public object? VisitThisExpr(Expr.This expr) {
+		// Ensure 'this' expression is only used inside a class
+		if (currentClass == ClassType.NONE) {
+			DotLox.HandleError(expr.getKeyword(), "Can't use 'this' outside of a class.");
+			return null;
+		}
+
 		ResolveLocal(expr, expr.getKeyword());
 		return null;
 	}
