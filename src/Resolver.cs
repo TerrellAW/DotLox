@@ -12,7 +12,8 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 	private enum FunctionType {
 		NONE,
-		FUNCTION
+		FUNCTION,
+		METHOD
 	}
 
 	public Resolver(Interpreter interpreter) {
@@ -36,6 +37,13 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	public object? VisitClassStmt(Stmt.Class stmt) {
 		Declare(stmt.getName());
 		Define(stmt.getName());
+
+		// Resolve methods
+		foreach (Stmt.Function method in stmt.getMethods()) {
+			FunctionType decl = FunctionType.METHOD;
+			ResolveFunction(method, decl);
+		}
+
 		return null;
 	}
 

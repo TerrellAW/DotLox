@@ -11,9 +11,15 @@ public class DotLoxInstance {
 	}
 
 	public object Get(Token name) {
+		// Search for field
 		if (fields.ContainsKey(name.getLexeme())) {
 			return fields[name.getLexeme()];
 		}
+
+		// Search for method, shadowed by field
+		DotLoxFunction? method = klass.FindMethod(name.getLexeme());
+		if (method != null) return method;
+
 		throw new RuntimeError(name, $"Undefined property '{name.getLexeme()}'.");
 	}
 

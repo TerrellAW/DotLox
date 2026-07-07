@@ -302,7 +302,15 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 
 	public Object? VisitClassStmt(Stmt.Class stmt) {
 		environment.Define(stmt.getName().getLexeme(), null);
-		DotLoxClass klass = new DotLoxClass(stmt.getName().getLexeme());
+
+		// Interpret methods
+		Dictionary<string, DotLoxFunction> methods = new();
+		foreach (Stmt.Function method in stmt.getMethods()) {
+			DotLoxFunction function = new DotLoxFunction(method, environment);
+			methods[method.getName().getLexeme()] = function;
+		}
+
+		DotLoxClass klass = new DotLoxClass(stmt.getName().getLexeme(), methods);
 		environment.Assign(stmt.getName(), klass);
 		return null;
 	}
