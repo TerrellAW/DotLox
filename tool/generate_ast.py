@@ -28,6 +28,7 @@ ast_types = [
     "Literal   : Object? value",
     "Logical   : Expr left, Token opr, Expr right",
     "Set       : Expr obj, Token name, Expr value",
+    "This      : Token keyword",
     "Unary     : Token opr, Expr right",
     "Variable  : Token name"
 ]

@@ -15,6 +15,7 @@ public abstract class Expr {
 		public T VisitLiteralExpr(Literal expr);
 		public T VisitLogicalExpr(Logical expr);
 		public T VisitSetExpr(Set expr);
+		public T VisitThisExpr(This expr);
 		public T VisitUnaryExpr(Unary expr);
 		public T VisitVariableExpr(Variable expr);
 	}
@@ -212,6 +213,23 @@ public abstract class Expr {
 
 		public override T Accept<T>(Visitor<T> visitor) {
 			return visitor.VisitSetExpr(this);
+		}
+	}
+
+	public class This : Expr {
+
+		readonly Token keyword;
+
+		public Token getKeyword() {
+			return keyword;
+		}
+
+		public This(Token keyword) {
+			this.keyword = keyword;
+		}
+
+		public override T Accept<T>(Visitor<T> visitor) {
+			return visitor.VisitThisExpr(this);
 		}
 	}
 
