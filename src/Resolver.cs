@@ -19,7 +19,8 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 	private enum ClassType {
 		NONE,
-		CLASS
+		CLASS,
+		SUBCLASS
 	}
 
 	private ClassType currentClass = ClassType.NONE;
@@ -51,6 +52,7 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 		// Resolve superclass if not null
 		if (stmt.getSuperclass() != null) {
+			currentClass = ClassType.SUBCLASS;
 			if (stmt.getName().getLexeme().Equals(stmt.getSuperclass().getName().getLexeme()))
 				DotLox.HandleError(stmt.getSuperclass().getName(), "A class can't inherit from itself.");
 
@@ -197,6 +199,13 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	}
 
 	public object? VisitSuperExpr(Expr.Super expr) {
+		// Handle invalid uses of 'super'
+		if (currentClass == ClassType.NONE) {
+			DotLox.HandleError(expr.getKeyword(), "Can't use 'super' outside of a class.");
+		} else if (currentClass != ClassType.SUBCLASS) {
+			DotLox.HandleError(expr.getKeyword(), "Can't use 'super' in a class with no superclass.");
+		}
+
 		ResolveLocal(expr, expr.getKeyword());
 		return null;
 	}
