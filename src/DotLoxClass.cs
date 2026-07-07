@@ -25,13 +25,23 @@ public class DotLoxClass : DotLoxCallable {
         return name;
     }
 
+	// Arity is based on constructor parameters
 	public int Arity() {
-		return 0;
+		DotLoxFunction? initializer = FindMethod("init");
+		if (initializer == null) return 0;
+		return initializer.Arity();
 	}
 
 	// Calling a class acts as a constructor/factory method
 	public object? Call(Interpreter interpreter, List<object> arguments) {
 		DotLoxInstance instance = new DotLoxInstance(this);
+
+		// User-defined constructor call
+		DotLoxFunction? initializer = FindMethod("init");
+		if (initializer != null) {
+			initializer.Bind(instance).Call(interpreter, arguments);
+		}
+
 		return instance;
 	}
 }

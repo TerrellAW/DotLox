@@ -220,7 +220,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 	}
 
 	public Object? VisitFunctionStmt(Stmt.Function stmt) {
-		DotLoxFunction function = new DotLoxFunction(stmt, environment);
+		DotLoxFunction function = new DotLoxFunction(stmt, environment, false);
 		environment.Define(stmt.getName().getLexeme(), function);
 		return null;
 	}
@@ -310,7 +310,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		// Interpret methods
 		Dictionary<string, DotLoxFunction> methods = new();
 		foreach (Stmt.Function method in stmt.getMethods()) {
-			DotLoxFunction function = new DotLoxFunction(method, environment);
+			DotLoxFunction function = new DotLoxFunction(method, environment, method.getName().getLexeme().Equals("init"));
 			methods[method.getName().getLexeme()] = function;
 		}
 

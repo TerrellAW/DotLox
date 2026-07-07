@@ -7,17 +7,21 @@ public class DotLoxFunction : DotLoxCallable {
 	// Store environment for closures
 	private readonly DotLoxEnv closure;
 
+	// Determine if is init() method
+	private readonly bool IsInit;
+
 	// Constructor
-	public DotLoxFunction(Stmt.Function declaration, DotLoxEnv closure) {
+	public DotLoxFunction(Stmt.Function declaration, DotLoxEnv closure, bool IsInit) {
 		this.declaration = declaration;
-		this.closure = closure;
+		this.closure 	 = closure;
+		this.IsInit 	 = IsInit;
 	}
 
 	// Bind an environment that will be used by 'this' expression
 	public DotLoxFunction Bind(DotLoxInstance instance) {
 		DotLoxEnv environment = new DotLoxEnv(closure);
 		environment.Define("this", instance);
-		return new DotLoxFunction(declaration, environment);
+		return new DotLoxFunction(declaration, environment, IsInit);
 	}
 
 	// Arity implementation, takes arity from declaration's parameter list count
@@ -41,6 +45,9 @@ public class DotLoxFunction : DotLoxCallable {
 		} catch (Return returnVal) {
 			return returnVal.getValue();
 		}
+
+		// Calling init() is the same as referencing the object
+		if (IsInit) return closure.GetAt(0, "this");
 
 		// If code execution done and no return statement, return nil
 		return null;
