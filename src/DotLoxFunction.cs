@@ -43,6 +43,9 @@ public class DotLoxFunction : DotLoxCallable {
 		try {
 			interpreter.ExecuteBlock(declaration.getBody(), environment);
 		} catch (Return returnVal) {
+			// 'init()' always returns 'this'
+			if (IsInit) return closure.GetAt(0, "this");
+
 			return returnVal.getValue();
 		}
 

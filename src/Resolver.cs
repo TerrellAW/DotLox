@@ -13,6 +13,7 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	private enum FunctionType {
 		NONE,
 		FUNCTION,
+		INITIALIZER,
 		METHOD
 	}
 
@@ -56,6 +57,11 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		// Resolve methods
 		foreach (Stmt.Function method in stmt.getMethods()) {
 			FunctionType decl = FunctionType.METHOD;
+
+			// Handle user-defined constructors
+			if (method.getName().getLexeme().Equals("init"))
+				decl = FunctionType.INITIALIZER;
+
 			ResolveFunction(method, decl);
 		}
 
@@ -96,6 +102,11 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 			DotLox.HandleError(stmt.getKeyword(), "Can't return from top-level code.");
 
 		if (stmt.getValue() != null) {
+			// Disallow returning from user-defined constructors
+			if (currentFunction == FunctionType.INITIALIZER) {
+				DotLox.HandleError(stmt.getKeyword(), "Can't return a value from an initializer.");
+			}
+
 			Resolve(stmt.getValue());
 		}
 
