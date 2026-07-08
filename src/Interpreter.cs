@@ -24,6 +24,18 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			return Console.ReadLine();
 		}));
 
+		// Modulo function
+		globals.Define("mod", new NativeFunction(2, (interpreter, arguments) => {
+			double target;
+			double modulo;
+
+			// Insane amounts of type casting needed for this to work in C#
+			Double.TryParse(((List<object>)arguments)[0].ToString(), out target);
+			Double.TryParse(((List<object>)arguments)[1].ToString(), out modulo);
+
+			return target % modulo;
+		}));
+
 		environment = globals;
 	}
 
