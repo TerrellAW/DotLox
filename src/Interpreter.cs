@@ -20,7 +20,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		}));
 
 		// Function to get input
-		globals.Define("readLine", new NativeFunction(0, (interpreter, arguments) => {
+		globals.Define("read", new NativeFunction(0, (interpreter, arguments) => {
 			return Console.ReadLine();
 		}));
 
