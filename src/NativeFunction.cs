@@ -8,19 +8,27 @@ namespace DotLox;
 
 internal class NativeFunction : DotLoxCallable {
 	private int arity;
-	private readonly Func<object, object, double> func;
+	private readonly Func<object, object, double> funcnum;
+	private readonly Func<object, object, string?> funcstr;
 
 	public NativeFunction(int arity, Func<object, object, double> func)
 	{
 		this.arity = arity;
-		this.func = func;
+		this.funcnum = func;
+	}
+
+	public NativeFunction(int arity, Func<object, object, string?> func)
+	{
+		this.arity = arity;
+		this.funcstr = func;
 	}
 
 	public int Arity() {
 		return arity;
 	}
 
-	public object? Call(Interpreter interpreter, List<object?> arguments) => func.Invoke(interpreter, arguments);
+	public object? Call(Interpreter interpreter, List<object?> arguments) => 
+		funcnum != null ? funcnum.Invoke(interpreter, arguments) : funcstr.Invoke(interpreter, arguments);
 
 	public override string ToString() => "<native fn>";
 }

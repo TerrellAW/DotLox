@@ -19,6 +19,11 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			return DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000.0;
 		}));
 
+		// Function to get input
+		globals.Define("readLine", new NativeFunction(0, (interpreter, arguments) => {
+			return Console.ReadLine();
+		}));
+
 		environment = globals;
 	}
 
