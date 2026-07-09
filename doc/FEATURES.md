@@ -47,4 +47,6 @@ Takes a line of input from the terminal. [Documentation](LIBRARY.md#read).
 
 Applies the modulo operation to two variables. [Documentation](LIBRARY.md#modn1-n2).
 
+### Documentation
+
 Information on the entire DotLox Standard Library can be found [here](LIBRARY.md).
