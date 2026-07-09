@@ -43,11 +43,11 @@ DotLox has extra native functions:
 
 Takes a line of input from the terminal.
 
-### [`readFile(file)`](LIBRARY.md#readFile)
+### [`readFile(file)`](LIBRARY.md#readFilefile)
 
 Reads and returns the entire contents of a file.
 
-### [`writeFile(file, text)`](LIBRARY.md#writeFile)
+### [`writeFile(file, text)`](LIBRARY.md#writeFilefile-text)
 
 Outputs given text to a file.
 

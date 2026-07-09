@@ -38,7 +38,7 @@ This function takes no arguments.
 
 This function returns a `string` of text.
 
-## `readFile()`
+## `readFile(file)`
 
 A function which reads the entire contents of a file.
 
