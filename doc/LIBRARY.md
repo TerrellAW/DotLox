@@ -6,6 +6,22 @@
 
 The standard library for DotLox contains a number of functions that were implemented natively in C# for better performance and access to necessary features.
 
+## `clock()`
+
+A function which returns the current system time in milliseconds since the Unix epoch.
+
+### Arguments
+
+**Types:** `nil`
+
+This function takes no arguments.
+
+### Returns
+
+**Type:** `number`
+
+This function returns a `number`.
+
 ## `read()`
 
 A function which reads a line of input.
