@@ -43,6 +43,10 @@ DotLox has extra native functions:
 
 Takes a line of input from the terminal.
 
+### [`readFile(file)`](LIBRARY.md#readFile)
+
+Reads and returns the entire contents of a file.
+
 ### [`mod(n1, n2)`](LIBRARY.md#modn1-n2)
 
 Applies the modulo operation to two variables.

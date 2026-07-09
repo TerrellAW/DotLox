@@ -38,6 +38,23 @@ This function takes no arguments.
 
 This function returns a `string` of text.
 
+## `readFile()`
+
+A function which reads the entire contents of a file.
+
+### Arguments
+
+**Types:** `string`
+
+This function takes a `string` containing the directory of a file.
+The function will notify the user if the given argument is invalid.
+
+### Returns
+
+**Type:** `string`
+
+This function returns a `string` of text.
+
 ## `mod(n1, n2)`
 
 A function which applies the modulo operation to two arguments.
