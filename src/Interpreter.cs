@@ -19,9 +19,21 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			return DateTimeOffset.Now.ToUnixTimeMilliseconds() / 1000.0;
 		}));
 
-		// Function to get input
+		// Function to get terminal input
 		globals.Define("read", new NativeFunction(0, (interpreter, arguments) => {
 			return Console.ReadLine();
+		}));
+
+		// Function to get file input
+		globals.Define("readFile", new NativeFunction(1, (interpreter, arguments) => {
+			string text = "";
+			try {
+				StreamReader sr = new StreamReader(((List<object>)arguments)[0].ToString());
+				text = sr.ReadToEnd();
+			} catch(System.Exception e) {
+				Console.Error.WriteLine($"{e.Message} \n");
+			}
+			return text;
 		}));
 
 		// Modulo function
