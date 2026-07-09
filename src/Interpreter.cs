@@ -36,6 +36,17 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			return text;
 		}));
 
+		// Function to write output to a file
+		globals.Define("writeFile", new NativeFunction(2, (interpreter, arguments) => {
+			try {
+				File.WriteAllText(((List<object>)arguments)[0].ToString(), ((List<object>)arguments)[1].ToString());
+			} catch(System.Exception e) {
+				Console.Error.WriteLine($"{e.Message} \n");
+				return 1;
+			}
+			return 0;
+		}));
+
 		// Modulo function
 		globals.Define("mod", new NativeFunction(2, (interpreter, arguments) => {
 			double target;
