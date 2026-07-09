@@ -47,6 +47,10 @@ Takes a line of input from the terminal.
 
 Reads and returns the entire contents of a file.
 
+### [`writeFile(file, text)`](LIBRARY.md#writeFile)
+
+Outputs given text to a file.
+
 ### [`mod(n1, n2)`](LIBRARY.md#modn1-n2)
 
 Applies the modulo operation to two variables.

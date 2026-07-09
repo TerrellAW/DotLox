@@ -42,9 +42,9 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 				File.WriteAllText(((List<object>)arguments)[0].ToString(), ((List<object>)arguments)[1].ToString());
 			} catch(System.Exception e) {
 				Console.Error.WriteLine($"{e.Message} \n");
-				return 1;
+				return false;
 			}
-			return 0;
+			return true;
 		}));
 
 		// Modulo function
