@@ -39,13 +39,13 @@ This allows a DotLox script to be run with `./script-name` on Unix and Unix-like
 
 DotLox has extra native functions:
 
-### `read()`
+### [`read()`](LIBRARY.md#read)
 
-Takes a line of input from the terminal. [Documentation](LIBRARY.md#read).
+Takes a line of input from the terminal.
 
-### `mod(n1, n2)`
+### [`mod(n1, n2)`](LIBRARY.md#modn1-n2)
 
-Applies the modulo operation to two variables. [Documentation](LIBRARY.md#modn1-n2).
+Applies the modulo operation to two variables.
 
 ### Documentation
 
