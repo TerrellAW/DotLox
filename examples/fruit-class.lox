@@ -1,10 +1,14 @@
 #!/usr/bin/dotlox
 
+// Create a class for Fruit, used as a superclass
 class Fruit {
+	// Fields are determined dynamically
+	// The init() method's parameters can be used to define some that must exist
 	init(isEdible) {
 		this.isEdible = isEdible;
 	}
 
+	// Methods don't need the 'fun' prefix
 	taste() {
 		if (this.isEdible) {
 			return "tasty and nutritious";
@@ -14,8 +18,11 @@ class Fruit {
 	}
 }
 
+// Orange class inherits from Fruit
 class Orange < Fruit {
 	init() {
+		// Super invokes the superclass' method
+		// This sets isEdible to 'true'
 		super.init(true);
 	}
 
@@ -24,8 +31,11 @@ class Orange < Fruit {
 	}
 }
 
+// Manchineel class inherits from Fruit
 class Manchineel < Fruit {
 	init() {
+		// Super invokes the superclass' method
+		// This sets isEdible to 'false'
 		super.init(false);
 	}
 
@@ -34,9 +44,12 @@ class Manchineel < Fruit {
 	}
 }
 
+// Instantiating a class
+// Automatically calls the 'init()' method
 var orange 		= Orange();
 var manchineel 	= Manchineel();
 
+// Subclasses inherit 'taste()' method from Fruit
 print orange.toString() + " is " + orange.taste();
 print manchineel.toString() + " is " + manchineel.taste();
 
