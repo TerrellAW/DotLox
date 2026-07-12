@@ -110,6 +110,8 @@ dotlox path/to/file.lox
 
 ## Syntax
 
+Example code written in DotLox can be found [here](examples/).
+
 The grammar can be found [here](doc/GRAMMAR.md). 
 
 Features that differentiate DotLox from Lox can be found [here](doc/FEATURES.md).

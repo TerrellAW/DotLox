@@ -1,0 +1,9 @@
+#!/usr/bin/dotlox
+
+// Create a file
+writeFile("hello.txt", "Hello World!");
+
+// Read from the file
+var text = readFile("hello.txt");
+
+print text;

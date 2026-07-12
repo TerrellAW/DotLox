@@ -20,6 +20,8 @@ The following grammar denotes the rules in the DotLox programming language. It d
 
 The rules are in order of descending precedence.
 
+Example code can be found [here](../examples/).
+
 ### Grammar Rules
 
 ```

@@ -1,0 +1,13 @@
+#!/usr/bin/dotlox
+
+// Use system clock as seed
+var seed = clock();
+
+// Implementation of C's rand function in DotLox
+fun rand(seed) {
+	var num = seed * 1103515245 + 12345;
+	return mod((num/65536), 32768);
+}
+
+// Prints a different number depending on the time
+print rand(seed);

@@ -1,0 +1,42 @@
+#!/usr/bin/dotlox
+
+class Fruit {
+	init(isEdible) {
+		this.isEdible = isEdible;
+	}
+
+	taste() {
+		if (this.isEdible) {
+			return "tasty and nutritious";
+		}
+
+		return "bitter and poisonous";
+	}
+}
+
+class Orange < Fruit {
+	init() {
+		super.init(true);
+	}
+
+	toString() {
+		return "orange";
+	}
+}
+
+class Manchineel < Fruit {
+	init() {
+		super.init(false);
+	}
+
+	toString() {
+		return "manchineel";
+	}
+}
+
+var orange 		= Orange();
+var manchineel 	= Manchineel();
+
+print orange.toString() + " is " + orange.taste();
+print manchineel.toString() + " is " + manchineel.taste();
+
