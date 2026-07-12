@@ -8,7 +8,7 @@ The standard library for DotLox contains a number of functions that were impleme
 
 ## `clock()`
 
-A function which returns the current system time in milliseconds since the Unix epoch.
+A function which returns the current system time in seconds since the Unix epoch.
 
 ### Arguments
 
