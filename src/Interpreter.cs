@@ -103,12 +103,12 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 				}
 
 				// Handle concat
-				if (left is string && right is string) {
-					return (string)left + (string)right;
+				if (left is string || right is string) {
+					return Stringify(left) + Stringify(right);
 				}
 
 				// Else fail
-				throw new RuntimeError(expr.getOpr(), "Operands must be two numbers or two strings.");
+				throw new RuntimeError(expr.getOpr(), "Operands must be numbers or strings.");
 			case TokenType.SLASH:
 				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left / (double)right;
