@@ -35,6 +35,14 @@ print "Hello, World!";
 
 This allows a DotLox script to be run with `./script-name` on Unix and Unix-like operating systems if the `dotlox` binary has been installed with `make install`.
 
+## Concatenation
+
+DotLox allows non-strings to be concatenated into strings, like so:
+
+```bash
+print 8 + " is a number.";
+```
+
 ## Standard Library
 
 DotLox has extra native functions:
