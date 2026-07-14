@@ -4,8 +4,8 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 	// Use interpreter to resolve, but don't execute code
 	private readonly Interpreter interpreter;
 
-	// Stack of scopes
-	private readonly Stack<Dictionary<string, bool>> scopes = new Stack<Dictionary<string, bool>>();
+	// List of scopes
+	private readonly List<Dictionary<string, bool>> scopes = new List<Dictionary<string, bool>>();
 
 	// Function tracker
 	private FunctionType currentFunction = FunctionType.NONE;
@@ -62,13 +62,13 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		// Create environment for superclass methods
 		if (stmt.getSuperclass() != null) {
 			BeginScope();
-			scopes.Peek()["super"] = true;
+			scopes[^1]["super"] = true;
 		}
 
 		// Create scope for current state of object
 		// Will be used when 'this.property' is used
 		BeginScope();
-		scopes.Peek()["this"] = true;
+		scopes[^1]["this"] = true;
 
 		// Resolve methods
 		foreach (Stmt.Function method in stmt.getMethods()) {
@@ -228,7 +228,8 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 	public object? VisitVariableExpr(Expr.Variable expr) {
 		// Handle uninitialized variable being assigned to itself
-		if (!(scopes.Count == 0) && (scopes.Peek().TryGetValue(expr.getName().getLexeme(), out bool initialized) && !initialized)) {
+		if (!(scopes.Count == 0) && (scopes[^1].TryGetValue(expr.getName().getLexeme(), 
+						out bool initialized) && !initialized)) {
 			DotLox.HandleError(expr.getName(), "Can't read local variable in its own initializer.");
 		}
 
@@ -276,12 +277,12 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 
 	// Create a new scope and add it to stack
 	private void BeginScope() {
-		scopes.Push(new Dictionary<string, bool>());
+		scopes.Add(new Dictionary<string, bool>());
 	}
 
 	// Exit scope and discard it
 	private void EndScope() {
-		scopes.Pop();
+		scopes.RemoveAt(scopes.Count - 1);
 	}
 
 	// Declare variable so it shadows any outer one with the same name
@@ -290,7 +291,7 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		if (scopes.Count == 0 ) return;
 
 		// Declare variable and mark as not ready
-		Dictionary<string, bool> scope = scopes.Peek();
+		Dictionary<string, bool> scope = scopes[^1];
 		if (scope.ContainsKey(name.getLexeme())) {
 			DotLox.HandleError(name, "Already a variable with this name in this scope.");
 		}
@@ -304,16 +305,16 @@ public class Resolver : Expr.Visitor<object?>, Stmt.Visitor<object?> {
 		if (scopes.Count == 0 ) return;
 
 		// Mark as ready for use (initialized)
-		scopes.Peek()[name.getLexeme()] = true;
+		scopes[^1][name.getLexeme()] = true;
 	}
 
 	// Resolve local variable assignment
 	private void ResolveLocal(Expr expr, Token name) {
-		// Increment through scopes
-		for (int i = 0; i < scopes.Count; i++) {
+		// Decrement through scopes
+		for (int i = scopes.Count -1; i >= 0; i--) {
 			// Pass amount of layers since declaration to interpreter
-			if (scopes.ElementAt(i).ContainsKey(name.getLexeme())) {
-				interpreter.Resolve(expr, i);
+			if (scopes[i].ContainsKey(name.getLexeme())) {
+				interpreter.Resolve(expr, scopes.Count - 1 - i);
 				return;
 			}
 		}
