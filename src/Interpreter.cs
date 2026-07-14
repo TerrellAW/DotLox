@@ -108,7 +108,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 				}
 
 				// Else fail
-				throw new RuntimeError(expr.getOpr(), "Operands must be numbers, strings or types.");
+				throw new RuntimeError(expr.getOpr(), "Operands must be numbers, strings or references.");
 			case TokenType.SLASH:
 				CheckNumOpr(expr.getOpr(), left, right);
 				return (double)left / (double)right;
