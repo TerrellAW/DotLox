@@ -1,0 +1,22 @@
+#!/usr/bin/dotlox
+
+fun pow(num, exp) {
+	var result = num;
+
+	// Loop exp-1 amount of times
+	var i = exp - 1;
+	while (i > 0) {
+		// Multiply num exp amount of times
+		result = result * num;
+		i = i - 1;
+	}
+
+	return result;
+}
+
+print "Enter a number";
+var num = readNum();
+print "Enter an exponent";
+var exp = readNum();
+
+print pow(num, exp);
