@@ -27,7 +27,7 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 		// Function to get terminal input as number
 		globals.Define("readNum", new NativeFunction(0, (interpreter, arguments) => {
 			string? input = Console.ReadLine();
-			double num = 0;
+			double num = double.NaN;
 			try {
 				num = double.Parse(input);
 			} catch(System.Exception e) {
@@ -69,6 +69,29 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			Double.TryParse(((List<object>)arguments)[1].ToString(), out modulo);
 
 			return target % modulo;
+		}));
+
+		// Convert to string function
+		globals.Define("stringify", new NativeFunction(1, (interpreter, arguments) => {
+			return ((List<object>)arguments)[0].ToString();
+		}));
+
+		// Convert to number function
+		globals.Define("numberify", new NativeFunction(1, (interpreter, arguments) => {
+			double num = double.NaN;
+			try {
+				num = double.Parse(((List<object>)arguments)[0].ToString());
+			} catch(System.Exception e) {
+				Console.Error.WriteLine($"{e.Message} \n");
+			}
+			return num;
+		}));
+
+		// Check if string is number
+		globals.Define("isNum", new NativeFunction(1, (interpreter, arguments) => {
+			bool isNum = Double.TryParse(((List<object>)arguments)[0].ToString(), out _);
+
+			return isNum;
 		}));
 
 		environment = globals;

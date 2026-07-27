@@ -38,6 +38,23 @@ This function takes no arguments.
 
 This function returns a `string` of text.
 
+## `readNum()`
+
+A function which reads a numeric line of input.
+
+### Arguments
+
+**Types:** `nil`
+
+This function takes no arguments.
+
+### Returns
+
+**Types:** `number`, `NaN`
+
+This function returns the `number` retrieved from the terminal or `NaN`.
+The function will notify the user if the given argument is not a number.
+
 ## `readFile(file)`
 
 A function which reads the entire contents of a file.
@@ -91,3 +108,51 @@ This function takes two arguments. It was made with numbers in mind, but it can 
 
 If both arguments are numbers or strings that contain only numbers, the function will return a `number`.
 If one or both arguments are strings that contain non-numbers the function will return `NaN`.
+
+## `stringify(n)`
+
+A function which converts a value into a string.
+
+### Arguments
+
+**Types:** any
+
+This function takes one argument.
+
+### Returns
+
+**Types:** `string`
+
+This function returns a `string` representation of the argument.
+
+## `numberify(val)`
+
+A function which converts a string into a number.
+
+### Arguments
+
+**Types:** any
+
+This function takes one argument. It was made with strings in mind but won't crash with other types.
+
+### Returns
+
+**Types:** `number`, `NaN`
+
+This function returns a `number` if given a string containing a numeric value, or `NaN`.
+
+## `isNum(val)`
+
+A function which checks if a value is numeric.
+
+### Arguments
+
+**Types:** any
+
+This function takes one argument.
+
+### Returns
+
+**Types:** `bool`
+
+This function returns `True` if value is numeric, or `False` if it is not.

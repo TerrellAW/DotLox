@@ -51,6 +51,10 @@ DotLox has extra native functions:
 
 Takes a line of input from the terminal.
 
+### [`readNum()`](LIBRARY.md#readNum)
+
+Takes a numeric line of input from the terminal.
+
 ### [`readFile(file)`](LIBRARY.md#readFilefile)
 
 Reads and returns the entire contents of a file.
@@ -62,6 +66,18 @@ Outputs given text to a file.
 ### [`mod(n1, n2)`](LIBRARY.md#modn1-n2)
 
 Applies the modulo operation to two variables.
+
+### [`stringify(n)`](LIBRARY.md#stringifyn)
+
+Converts a non-string into a string.
+
+### [`numberify(val)`](LIBRARY.md#numberifyval)
+
+Converts a numeric string into a number.
+
+### [`isNum(val)`](LIBRARY.md#isNumval)
+
+Checks if a value is numeric.
 
 ### Documentation
 
