@@ -87,6 +87,10 @@ Returns a random number in the given range.
 
 Trims floating point off of number.
 
+### [`replace(val, str1, str2)`](LIBRARY.md#replaceval-str1-str2)
+
+Replaces specified characters with another set of specified characters in a specified value.
+
 ### Documentation
 
 Information on the entire DotLox Standard Library can be found [here](LIBRARY.md).

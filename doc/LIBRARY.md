@@ -189,3 +189,19 @@ This function takes one argument. It was made with numbers in mind and will give
 **Types:** `number`, `NaN`
 
 This function returns a `number` if given a string containing a numeric value or a number, or `NaN`.
+
+## `replace(val, str1, str2)`
+
+A function which replaces specified characters with another set of specified characters in a specified value.
+
+### Arguments
+
+**Types:** `number`, `string`
+
+This function takes three arguments. It was made with strings in mind but will work with numbers.
+
+### Returns
+
+**Types:** `string`
+
+This function returns a `string`.

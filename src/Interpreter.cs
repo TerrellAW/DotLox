@@ -123,6 +123,20 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			return (double)((int)num);
 		}));
 
+		// Replace specified characters in string
+		globals.Define("replace", new NativeFunction(3, (interpreter, arguments) => {
+			string? str = ((List<object>)arguments)[0].ToString();
+			string? replacee = ((List<object>)arguments)[1].ToString();
+			string? replacer = ((List<object>)arguments)[2].ToString();
+
+			// Try to replace specified chars in specified string
+			try {
+				return str.Replace(replacee, replacer);
+			} catch(System.Exception e) {
+			}
+			return str;
+		}));
+
 		environment = globals;
 	}
 
