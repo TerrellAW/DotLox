@@ -1,0 +1,19 @@
+#!/usr/bin/dotlox
+
+print "Enter first number:";
+var a = readNum();
+print "";
+print "Enter second number:";
+var b = readNum();
+print "";
+
+// Find lowest common denominator
+var result = a;
+if (mod(a,b) == 0) {
+	while (mod(result,b) == 0) {
+		result = result / b;
+	}
+	print result;
+} else {
+	print a + " and " + b + " are not divisible.";
+}
