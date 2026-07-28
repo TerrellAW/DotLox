@@ -156,3 +156,20 @@ This function takes one argument.
 **Types:** `bool`
 
 This function returns `True` if value is numeric, or `False` if it is not.
+
+## `rand(n1, n2)`
+
+A function which returns a random number in the range of argument one and two.
+
+### Arguments
+
+**Types:** `number`, `string`
+
+This function takes two arguments. It was made with numbers in mind, but it can also handle strings.
+
+### Returns
+
+**Types:** `number`, `NaN`
+
+If both arguments are numbers or strings that contain only numbers, the function will return a `number`.
+If one or both arguments are strings that contain non-numbers the function will return `NaN`.

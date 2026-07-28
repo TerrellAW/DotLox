@@ -79,6 +79,10 @@ Converts a numeric string into a number.
 
 Checks if a value is numeric.
 
+### [`rand(n1, n2)`](LIBRARY.md#randn1-n2)
+
+Returns a random number in the given range.
+
 ### Documentation
 
 Information on the entire DotLox Standard Library can be found [here](LIBRARY.md).

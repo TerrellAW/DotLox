@@ -94,6 +94,21 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			return isNum;
 		}));
 
+		// Return a random number within the given range
+		globals.Define("rand", new NativeFunction(2, (interpreter, arguments) => {
+			Random random = new();
+			
+			double min = double.NaN;
+			double max = double.NaN;
+			try {
+				min = double.Parse(((List<object>)arguments)[0].ToString());
+				max = double.Parse(((List<object>)arguments)[1].ToString());
+			} catch(System.Exception e) {
+				Console.Error.WriteLine($"{e.Message} \n");
+			}
+			return random.NextDouble() * (max - min) + min;
+		}));
+
 		environment = globals;
 	}
 
