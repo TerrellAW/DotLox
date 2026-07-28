@@ -83,6 +83,10 @@ Checks if a value is numeric.
 
 Returns a random number in the given range.
 
+### [`int(n)`](LIBRARY.md#intn)
+
+Trims floating point off of number.
+
 ### Documentation
 
 Information on the entire DotLox Standard Library can be found [here](LIBRARY.md).

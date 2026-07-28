@@ -173,3 +173,19 @@ This function takes two arguments. It was made with numbers in mind, but it can 
 
 If both arguments are numbers or strings that contain only numbers, the function will return a `number`.
 If one or both arguments are strings that contain non-numbers the function will return `NaN`.
+
+## `int(n)`
+
+A function which trims the floating point off of a number.
+
+### Arguments
+
+**Types:** `number`, `string`
+
+This function takes one argument. It was made with numbers in mind and will give an error if a non-numeric value is given.
+
+### Returns
+
+**Types:** `number`, `NaN`
+
+This function returns a `number` if given a string containing a numeric value or a number, or `NaN`.

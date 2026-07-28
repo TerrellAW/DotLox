@@ -109,6 +109,20 @@ public class Interpreter : Expr.Visitor<Object?>, Stmt.Visitor<Object?> {
 			return random.NextDouble() * (max - min) + min;
 		}));
 
+		// Trims floating point off a number
+		globals.Define("int", new NativeFunction(1, (interpreter, arguments) => {
+			double num = double.NaN;
+
+			try {
+				num = double.Parse(((List<object>)arguments)[0].ToString());
+			} catch(System.Exception e) {
+				Console.Error.WriteLine($"{e.Message} \n");
+				return num;
+			}
+			// Parse into int and then back to double
+			return (double)((int)num);
+		}));
+
 		environment = globals;
 	}
 
